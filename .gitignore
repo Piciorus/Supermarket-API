@@ -5,6 +5,10 @@ target/
 !**/src/test/**/target/
 /target
 /.idea
+mvnw
+mvnw.cmd
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
 ### STS ###
 .apt_generated
 .classpath
