@@ -7,12 +7,16 @@ import java.util.List;
 
 public interface IAdminService {
     Employee createEmployee(Employee employee);
-    void deleteEmployee(int id);
-    Employee getEmployeeById(int id);
-    List<Employee> getAllEmployees();
+    void deleteEmployee(Long id);
+    Employee getEmployeeById(Long id);
+    Iterable<Employee> getAllEmployees();
+
+    Employee updateEmployee(Employee employee, Long id);
 
     Supermarket createSupermarket(Supermarket supermarket);
-    void removeSupermarket(int id);
-    Supermarket getSupermarketById(int id);
-    List<Supermarket> getAllSupermarkets();
+    void removeSupermarket(Long id);
+    Supermarket getSupermarketById(Long id);
+    Iterable<Supermarket> getAllSupermarkets();
+
+    Supermarket updateSupermarket(Supermarket supermarket, Long id);
 }

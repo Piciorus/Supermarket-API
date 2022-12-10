@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private long id;
     @Column(name="Username", nullable = false, length = 50)
     private String username;
     @Column(name="Password", nullable = false, length = 50)
@@ -17,22 +17,24 @@ public class Account {
     private Admin admin;
 
     @OneToOne(mappedBy = "account")
-    private Client client;
-
-    @OneToOne(mappedBy = "account")
     private Employee employee;
 
     @OneToOne(mappedBy = "account")
     private Manager manager;
 
     public Account(int id, String username, String password) {
-        this.ID = id;
+        this.id = id;
         this.username = username;
         this.password = password;
     }
 
     public Account() {
 
+    }
+
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -51,12 +53,12 @@ public class Account {
         this.password = password;
     }
 
-    public int getId() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
-    public void setId(int id) {
-        this.ID = id;
+    public void setId(long id) {
+        this.id = id;
     }
 
 

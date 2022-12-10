@@ -2,13 +2,10 @@ package application.Services.Implementation;
 
 import application.Model.Employee;
 import application.Model.Supermarket;
-import application.Repository.Implementation.AdminRepository;
-import application.Repository.Implementation.EmployeeRepository;
-import application.Repository.Implementation.SupermarketRepository;
+import application.Repository.EmployeeRepository;
+import application.Repository.SupermarketRepository;
 import application.Services.Interface.IAdminService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AdminService implements IAdminService {
@@ -21,43 +18,59 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Employee createEmployee(Employee employee) {return employeeRepository.addEmployee(employee);}
-
-    @Override
-    public void deleteEmployee(int id) {
-        employeeRepository.deleteEmployeeById(id);
+    public Employee createEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public Employee getEmployeeById(int id) {
-        return employeeRepository.getEmployeeById(id);
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.getAllEmployees();
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.getById(id);
+    }
+
+    @Override
+    public Iterable<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee, Long id) {
+        Employee employeeUpdated = employeeRepository.getById(id);
+        employeeUpdated.setName(employee.getName());
+        employeeUpdated.setSurname(employee.getSurname());
+        employeeUpdated.setSalary(employee.getSalary());
+        employeeUpdated.setPhone(employee.getPhone());
+        employeeUpdated.setCnp(employee.getCnp());
+        return employeeRepository.save(employeeUpdated);
+
     }
 
     @Override
     public Supermarket createSupermarket(Supermarket supermarket) {
-        supermarketRepository.addSupermarket(supermarket);
-        return supermarket;
+        return supermarketRepository.save(supermarket);
     }
 
     @Override
-    public void removeSupermarket(int id) {
-        supermarketRepository.deleteSupermarketById(id);
+    public void removeSupermarket(Long id) {
+        supermarketRepository.deleteById(id);
     }
-
     @Override
-    public Supermarket getSupermarketById(int id) {
-        return supermarketRepository.getSupermarketById(id);
+    public Supermarket getSupermarketById(Long id) {
+        return supermarketRepository.getById(id);
     }
-
     @Override
-    public List<Supermarket> getAllSupermarkets() {
-        return supermarketRepository.getAllSupermarkets();
+    public Iterable<Supermarket> getAllSupermarkets() {
+        return supermarketRepository.findAll();
     }
-
-
+    @Override
+    public Supermarket updateSupermarket(Supermarket supermarket, Long id) {
+        Supermarket supermarketUpdated = supermarketRepository.getById(id);
+        supermarketUpdated.setName(supermarket.getName());
+        supermarketUpdated.setAddress(supermarket.getAddress());
+        return supermarketRepository.save(supermarketUpdated);
+    }
 }

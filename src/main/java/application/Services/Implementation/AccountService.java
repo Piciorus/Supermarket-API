@@ -1,36 +1,43 @@
 package application.Services.Implementation;
 
 import application.Model.Account;
-import application.Repository.Implementation.AccountRepository;
+import application.Repository.AccountRepository;
 import application.Services.Interface.IAccountService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 @Service
 public class AccountService implements IAccountService {
-
     private AccountRepository accountRepository;
+
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
+
     @Override
-    public Account getUserById(int id) {
+    public Account createAccount(Account account) {
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public void deleteAccountById(Long id) {
+        accountRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
+
+    @Override
+    public Account getAccountById(Long id) {
         return accountRepository.getById(id);
     }
 
     @Override
-    public Account create(Account account) {
-        accountRepository.add(account);
-        return account;
+    public Account updateAccount(Account account,Long id) {
+        Account accountUpdated = accountRepository.getById(id);
+        accountUpdated.setUsername(account.getUsername());
+        accountUpdated.setPassword(account.getPassword());
+        return accountRepository.save(accountUpdated);
     }
-
-    @Override
-    public List<Account> getAll() {
-        return accountRepository.getAll();
-    }
-    @Override
-    public Account register(String username, String password) {
-        return null;
-    }
-
 }

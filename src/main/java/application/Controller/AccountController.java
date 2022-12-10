@@ -1,42 +1,49 @@
 package application.Controller;
 
 import application.Model.Account;
-import application.Model.Employee;
 import application.Services.Implementation.AccountService;
-import application.Services.Implementation.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @CrossOrigin(origins = "https://localhost:4200", maxAge = 3600)
 @RestController()
 @Component
 public class AccountController {
 
-    private AdminService adminService;
     @Autowired
     private AccountService accountService;
-    public AccountController(AdminService adminService) {
-        this.adminService = adminService;
-    }
-    public AccountController() {
 
-    }
-    @GetMapping(path = "/accounts")
-    public ResponseEntity<List<Account>> getUsers() {
-        return ResponseEntity.ok(accountService.getAll());
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @PostMapping(path = "/create")
-    public ResponseEntity<Account> create(@RequestBody final Account account) {
-        return ResponseEntity.ok(accountService.create(account));
+    @PostMapping(path = "/addAccount")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account addAccount(@RequestBody final Account Account) {
+        return accountService.createAccount(Account);
     }
+
+    @GetMapping(path = "/getAllAccounts")
+    public Iterable<Account> getAllAccounts() {
+        return accountService.getAllAccounts();
+    }
+
     @GetMapping(path = "/getAccountById/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable("id") final int id) {
-        return ResponseEntity.ok(accountService.getUserById(id));
+    public ResponseEntity<Account> getAccountById(@PathVariable("id") Long accountId) {
+        return ResponseEntity.ok(accountService.getAccountById(accountId));
     }
+
+    @DeleteMapping(path = "/deleteAccountById/{id}")
+    public void deleteAccountById(@PathVariable("id") Long accountId) {
+        accountService.deleteAccountById(accountId);
+    }
+
+    @PutMapping(path = "/updateAccount/{id}")
+    public ResponseEntity<Account> updateAccount(@RequestBody Account account,@PathVariable("id") Long accountId) {
+        return ResponseEntity.ok(accountService.updateAccount(account,accountId));
+    }
+
 }

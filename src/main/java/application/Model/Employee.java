@@ -11,7 +11,7 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int EmployeeId;
+    private long id;
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Surname", nullable = false, length = 50)
@@ -27,34 +27,25 @@ public class Employee {
     @JoinColumn(name="UserId")
     private Account account;
 
-    @OneToOne
-    @JoinColumn(name="SupermarketId")
-    private Supermarket supermarket;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "EmployeeTasks", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private List<Task> tasks=new ArrayList<>(0);
-
-    public Employee(int employeeId, String name, String surname, String phone, String cnp, double salary, List<Task> tasks) {
-        this.EmployeeId = employeeId;
+    public Employee(long id, String name, String surname, String phone, String cnp, double salary) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.cnp = cnp;
         this.salary = salary;
-        this.tasks = tasks;
     }
 
     public Employee() {
 
     }
 
-    public int getEmployeeId() {
-        return EmployeeId;
+    public long getEmployeeId() {
+        return id;
     }
 
-    public void setEmployeeId(int employeeId) {
-        EmployeeId = employeeId;
+    public void setEmployeeId(long employeeId) {
+        id = employeeId;
     }
 
     public String getName() {
@@ -97,11 +88,4 @@ public class Employee {
         this.salary = salary;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
 }

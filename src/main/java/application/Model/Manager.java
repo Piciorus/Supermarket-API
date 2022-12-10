@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Manager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ManagerId;
+    private long id;
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Surname", nullable = false, length = 50)
@@ -23,8 +23,8 @@ public class Manager {
     @JoinColumn(name="UserId")
     private Account account;
 
-    public Manager(int ManagerId, String name, String surname, String phone, String cnp, String salary){
-        this.ManagerId = ManagerId;
+    public Manager(long id, String name, String surname, String phone, String cnp, String salary){
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
@@ -32,12 +32,16 @@ public class Manager {
         this.salary = salary;
     }
 
-    public int getManagerId() {
-        return ManagerId;
+    public Manager() {
+
     }
 
-    public void setManagerId(int managerId) {
-        ManagerId = managerId;
+    public long getManagerId() {
+        return id;
+    }
+
+    public void setManagerId(long managerId) {
+        id = managerId;
     }
 
     public String getName() {

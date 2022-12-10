@@ -1,28 +1,24 @@
 package application.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Supermarkets")
 public class Supermarket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int SupermarketId;
+    private long id;
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Address", nullable = false, length = 50)
     private String address;
 
-    @OneToOne(mappedBy = "supermarket")
-    private Employee employee;
+    @OneToMany(mappedBy = "supermarket", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Product> products;
 
-    @OneToOne(mappedBy = "supermarket")
-    private Admin admin;
-
-    @OneToOne(mappedBy = "supermarket")
-    private Inventory inventory;
-
-    public Supermarket(String name, String address) {
+    public Supermarket(long id,String name, String address) {
+        this.id = id;
         this.name = name;
         this.address = address;
     }
@@ -45,6 +41,14 @@ public class Supermarket {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 
