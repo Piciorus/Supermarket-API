@@ -1,5 +1,5 @@
 # Supermarket-API
-This is an API for a supermarket.This project was made using Spring Boot.
+This is an API for supermarkets.
 
 # What I used?
 
