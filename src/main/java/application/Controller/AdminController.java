@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @Component
 public class AdminController {
-    @Autowired
     private AdminService adminService;
-
+    @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }

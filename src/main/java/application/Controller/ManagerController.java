@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @Component
 public class ManagerController {
 
-    @Autowired
     private ManagerService managerService;
-
+    @Autowired
     public ManagerController(ManagerService managerService) {
         this.managerService = managerService;
     }

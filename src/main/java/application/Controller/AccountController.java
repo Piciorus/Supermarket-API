@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @Component
 public class AccountController {
 
-    @Autowired
     private AccountService accountService;
-
+    @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
