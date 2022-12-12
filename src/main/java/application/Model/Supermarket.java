@@ -17,6 +17,9 @@ public class Supermarket {
     @OneToMany(mappedBy = "supermarket", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Product> products;
 
+    @OneToMany(mappedBy = "supermarket1", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Employee> employees;
+
     public Supermarket(long id,String name, String address) {
         this.id = id;
         this.name = name;

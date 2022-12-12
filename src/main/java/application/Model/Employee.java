@@ -27,6 +27,10 @@ public class Employee {
     @JoinColumn(name="UserId")
     private Account account;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "supermarket_id", nullable = false)
+    private Supermarket supermarket1;
+
     public Employee(long id, String name, String surname, String phone, String cnp, double salary) {
         this.id = id;
         this.name = name;
