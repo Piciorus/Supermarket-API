@@ -1,8 +1,21 @@
 package application.Config;
 
+import application.Domain.Entities.Product;
+import application.Domain.Entities.Supermarket;
+import application.Domain.Entities.User;
+import application.Domain.Models.Product.Request.ProductRequestUpdatePrice;
+import application.Domain.Models.Product.Response.ProductResponseGetAll;
+import application.Domain.Models.Supermarket.Request.SupermarketRequestCreate;
+import application.Domain.Models.Supermarket.Response.SupermarketResponseGetAll;
+import application.Domain.Models.User.Request.UserRequestLogin;
+import application.Domain.Models.User.Request.UserRequestRegister;
+import application.Domain.Models.User.Response.UserResponseGetAllUsers;
+import application.Exception.CustomException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +23,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -22,11 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("user").password(password).roles("USER")
                 .and()
-                .withUser("admin").password(password).roles("ADMIN")
-                .and()
-                .withUser("manager").password(password).roles("MANAGER");
-
-}
+                .withUser("admin").password(password).roles("ADMIN");
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,30 +53,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 //              -user-
-                .antMatchers(HttpMethod.POST, "/addAccount").hasRole("USER")
-
+                .antMatchers(HttpMethod.POST, "/register").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/login").hasRole("USER")
 //              -admin-
                 .antMatchers(HttpMethod.GET, "/getAllAccounts").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/getAccountById/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/deleteAccountById/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/updateAccount/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/createSupermarket").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/addEmployee").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/addSupermarket").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/getEmployeeById").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/getSupermarketById").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/getAllEmployees").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/deleteEmployeeById").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/removeSupermarketById/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/updateEmployee/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").hasRole("ADMIN")
-//               -manager-
-
-                .antMatchers(HttpMethod.GET, "/getAllProducts").hasRole("MANAGER")
-                .antMatchers(HttpMethod.GET, "/getProduct/{id}").hasRole("MANAGER")
-                .antMatchers(HttpMethod.DELETE,"/deleteProduct/{id}").hasRole("MANAGER")
-                .antMatchers(HttpMethod.POST,"/addProduct/{id}").hasRole("MANAGER")
-
+                .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/deleteProductFromSupermarket/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/getAllProductsFromSupermarket/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/getProductById/{id}").hasRole("ADMIN")
                 .and()
                 .csrf().disable()
                 .formLogin().disable();

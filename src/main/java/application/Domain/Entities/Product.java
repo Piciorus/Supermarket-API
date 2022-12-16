@@ -1,8 +1,6 @@
-package application.Model;
+package application.Domain.Entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "Products")
@@ -16,18 +14,21 @@ public class Product {
     private String brand;
     @Column(name="Category", nullable = false, length = 50)
     private String category;
-    @Column(name="ExpirationDate", nullable = true, length = 50)
+    @Column(name="ExpirationDate", nullable = false, length = 50)
     private String expirationDate;
 
+    @Column(name="Price", nullable = false, length = 50)
+    private int price;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "supermarket_id", nullable = false)
     private Supermarket supermarket;
-    public Product(int id,String name, String brand, String category, String expirationDate) {
+    public Product(int id,String name, String brand, String category, String expirationDate, int price) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.category = category;
         this.expirationDate = expirationDate;
+        this.price = price;
     }
 
     public Product() {
@@ -79,6 +80,14 @@ public class Product {
 
     public void setProductId(long ProductId) {
         this.id = ProductId;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
 }

@@ -1,4 +1,6 @@
-package application.Model;
+package application.Domain.Entities;
+
+//import application.Domain.Entities.Employee;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,17 +15,14 @@ public class Supermarket {
     private String name;
     @Column(name="Address", nullable = false, length = 50)
     private String address;
-
     @OneToMany(mappedBy = "supermarket", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Product> products;
 
-    @OneToMany(mappedBy = "supermarket1", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Employee> employees;
-
-    public Supermarket(long id,String name, String address) {
+    public Supermarket(long id,String name, String address,List<Product> products) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.products = products;
     }
 
     public Supermarket() {
@@ -54,5 +53,12 @@ public class Supermarket {
         this.id = id;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
 }

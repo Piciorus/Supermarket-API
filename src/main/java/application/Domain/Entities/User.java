@@ -1,55 +1,72 @@
-package application.Model;
+package application.Domain.Entities;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "Employees")
-public class Employee {
+@Table(name = "Users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+    @Column(name="Username", nullable = false, length = 50)
+    private String username;
+    @Column(name="Password", nullable = false, length = 50)
+    private String password;
+
     @Column(name="Name", nullable = false, length = 50)
     private String name;
+
     @Column(name="Surname", nullable = false, length = 50)
     private String surname;
+
     @Column(name="Phone", nullable = false, length = 50)
     private String phone;
+
     @Column(name="CNP", nullable = false, length = 50)
     private String cnp;
-    @Column(name="Salary", nullable = false, length = 50)
-    private double salary;
 
-    @OneToOne
-    @JoinColumn(name="UserId")
-    private Account account;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private final List<Role> roles = new ArrayList<>(0);
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "supermarket_id", nullable = false)
-    private Supermarket supermarket1;
-
-    public Employee(long id, String name, String surname, String phone, String cnp, double salary) {
-        this.id = id;
+    public User(String username, String password, String name, String surname, String phone, String cnp) {
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.cnp = cnp;
-        this.salary = salary;
     }
 
-    public Employee() {
+    public User() {
 
     }
 
-    public long getEmployeeId() {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setEmployeeId(long employeeId) {
-        id = employeeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -84,12 +101,6 @@ public class Employee {
         this.cnp = cnp;
     }
 
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
 
 }
+
