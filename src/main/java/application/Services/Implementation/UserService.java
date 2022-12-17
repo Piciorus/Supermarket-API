@@ -4,7 +4,9 @@ import application.Domain.Entities.User;
 import application.Domain.Models.User.Request.UserRequestLogin;
 import application.Domain.Models.User.Request.UserRequestRegister;
 import application.Domain.Models.User.Response.UserResponseGetAllUsers;
+import application.Domain.Models.User.Response.UserResponseGetById;
 import application.Exception.CustomException;
+import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
 import application.Services.Interface.IUserService;
 import org.springframework.stereotype.Service;
@@ -24,18 +26,18 @@ public class UserService implements IUserService {
         this.mapper = mapper;
     }
     @Override
-    public User createAccount(UserRequestRegister userRequestRegister) {
+    public User register(UserRequestRegister userRequestRegister) {
         User user = mapper.UserRequestToUser(userRequestRegister);
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteAccountById(Long id) {
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<UserResponseGetAllUsers> getAllAccounts() {
+    public Iterable<UserResponseGetAllUsers> getAllUsers() {
         List<UserResponseGetAllUsers> list = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
             list.add(mapper.UserToUserResponse(user));
@@ -44,8 +46,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getAccountById(Long id) {
-        return userRepository.getById(id);
+    public UserResponseGetById getUserById(Long id) {
+        User user = userRepository.getById(id);
+        return mapper.UserToUserResponseGetById(user);
     }
 
     @Override

@@ -4,6 +4,7 @@ import application.Domain.Entities.User;
 import application.Domain.Models.User.Request.UserRequestLogin;
 import application.Domain.Models.User.Request.UserRequestRegister;
 import application.Domain.Models.User.Response.UserResponseGetAllUsers;
+import application.Domain.Models.User.Response.UserResponseGetById;
 import application.Exception.CustomException;
 import application.Services.Interface.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ public class UserController {
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> addAccount(@RequestBody final UserRequestRegister userRequestRegister ) {
-        accountService.createAccount(userRequestRegister);
+        accountService.register(userRequestRegister);
         return new ResponseEntity<>("User created ",HttpStatus.OK);
     }
 
-    @GetMapping(path = "/getAllAccounts")
+    @GetMapping(path = "/getAllUsers")
     public Iterable<UserResponseGetAllUsers> getAllAccounts() {
-        return accountService.getAllAccounts();
+        return accountService.getAllUsers();
     }
 
     @PostMapping(path = "/login")
@@ -41,13 +42,13 @@ public class UserController {
         return new ResponseEntity<>("You are logged in ",HttpStatus.OK);
     }
 
-    @GetMapping(path = "/getAccountById/{id}")
-    public ResponseEntity<User> getAccountById(@PathVariable("id") Long accountId) {
-        return ResponseEntity.ok(accountService.getAccountById(accountId));
+    @GetMapping(path = "/getUserById/{id}")
+    public ResponseEntity<UserResponseGetById> getAccountById(@PathVariable("id") Long accountId) {
+        return ResponseEntity.ok(accountService.getUserById(accountId));
     }
-    @DeleteMapping(path = "/deleteAccountById/{id}")
+    @DeleteMapping(path = "/deleteUserById/{id}")
     public void deleteAccountById(@PathVariable("id") Long accountId) {
-        accountService.deleteAccountById(accountId);
+        accountService.deleteUserById(accountId);
     }
 
 

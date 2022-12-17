@@ -2,6 +2,7 @@ package application.Services.Implementation;
 
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
+import application.Domain.Models.Product.Request.ProductRequestAdd;
 import application.Domain.Models.Product.Request.ProductRequestUpdatePrice;
 import application.Domain.Models.Product.Response.ProductResponseGetAll;
 import application.Domain.Mapper.Mapper;
@@ -26,8 +27,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product addProductToSupermarket(Product product,Long id) {
-        product.setSupermarket(supermarketRepository.getById(id));
+    public Product addProductToSupermarket(ProductRequestAdd productRequestAdd, Long id) {
+        productRequestAdd.setSupermarket(supermarketRepository.getById(id));
+        Product product = mapper.ProductRequestToProduct(productRequestAdd);
         return productRepository.save(product);
     }
 

@@ -1,6 +1,7 @@
 package application.Controller;
 
 import application.Domain.Entities.Product;
+import application.Domain.Models.Product.Request.ProductRequestAdd;
 import application.Domain.Models.Product.Request.ProductRequestUpdatePrice;
 import application.Domain.Models.Product.Response.ProductResponseGetAll;
 import application.Services.Interface.IProductService;
@@ -23,9 +24,9 @@ public class ProductController {
     }
 
     @PostMapping(path = "/addProductToSupermarket/{id}")
-    public ResponseEntity<String> addProductToSupermarket(@RequestBody final Product product, @PathVariable("id") Long supermarketId)
+    public ResponseEntity<String> addProductToSupermarket(@RequestBody final ProductRequestAdd productRequestAdd, @PathVariable("id") Long supermarketId)
     {
-        productService.addProductToSupermarket(product, supermarketId);
+        productService.addProductToSupermarket(productRequestAdd, supermarketId);
         return ResponseEntity.ok("Product added to supermarket");
     }
 

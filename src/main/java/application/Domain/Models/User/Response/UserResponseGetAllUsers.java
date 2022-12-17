@@ -4,7 +4,6 @@ public class UserResponseGetAllUsers {
     private String name;
     private String surname;
 
-
     public UserResponseGetAllUsers(String name, String surname) {
         this.name = name;
         this.surname = surname;

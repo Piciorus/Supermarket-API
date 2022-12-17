@@ -10,7 +10,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     void deleteById(final Long id);
     User getById(final Long id);
     Iterable<User> findAll();
-
     @Query(value="SELECT * FROM users WHERE username=?1",nativeQuery = true)
     User customQuery(String username);
 }

@@ -11,6 +11,8 @@ import application.Domain.Models.User.Request.UserRequestLogin;
 import application.Domain.Models.User.Request.UserRequestRegister;
 import application.Domain.Models.User.Response.UserResponseGetAllUsers;
 import application.Exception.CustomException;
+import application.Repository.RoleRepository;
+import application.Repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,8 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +35,10 @@ import java.util.List;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private RoleRepository roleRepository;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String password = passwordEncoder().encode("password");
-
         auth.inMemoryAuthentication()
                 .withUser("user").password(password).roles("USER")
                 .and()
@@ -47,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
                 .httpBasic()
                 .and()
@@ -56,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/register").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/login").hasRole("USER")
 //              -admin-
-                .antMatchers(HttpMethod.GET, "/getAllAccounts").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/getAccountById/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/deleteAccountById/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/getAllUsers").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/createSupermarket").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasRole("ADMIN")
@@ -70,8 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/getProductById/{id}").hasRole("ADMIN")
                 .and()
+                .cors().and()
                 .csrf().disable()
                 .formLogin().disable();
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }
 
