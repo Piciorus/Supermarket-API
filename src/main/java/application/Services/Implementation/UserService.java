@@ -1,14 +1,13 @@
 package application.Services.Implementation;
 
 import application.Domain.Entities.User;
-import application.Domain.Models.User.Request.UserRequestLogin;
-import application.Domain.Models.User.Request.UserRequestRegister;
-import application.Domain.Models.User.Response.UserResponseGetAllUsers;
-import application.Domain.Models.User.Response.UserResponseGetById;
-import application.Exception.CustomException;
-import application.Repository.RoleRepository;
+import application.Domain.Models.User.Request.LoginUserRequest;
+import application.Domain.Models.User.Request.RegisterUserRequest;
+import application.Domain.Models.User.Response.GetAllUsersResponse;
+import application.Domain.Models.User.Response.GetByIdUserResponse;
 import application.Repository.UserRepository;
 import application.Services.Interface.IUserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import application.Domain.Mapper.Mapper;
 
@@ -20,14 +19,16 @@ import java.util.Objects;
 public class UserService implements IUserService {
     private UserRepository userRepository;
     private Mapper mapper;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserService(UserRepository userRepository, Mapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
     @Override
-    public User register(UserRequestRegister userRequestRegister) {
-        User user = mapper.UserRequestToUser(userRequestRegister);
+    public User register(RegisterUserRequest userRequestRegister) {
+        User user = mapper.RegisterUserRequestToUser(userRequestRegister);
         return userRepository.save(user);
     }
 
@@ -37,42 +38,42 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Iterable<UserResponseGetAllUsers> getAllUsers() {
-        List<UserResponseGetAllUsers> list = new ArrayList<>();
+    public Iterable<GetAllUsersResponse> getAllUsers() {
+        List<GetAllUsersResponse> list = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
-            list.add(mapper.UserToUserResponse(user));
+            list.add(mapper.UserToGetAllUsersResponse(user));
         });
         return list;
     }
 
     @Override
-    public UserResponseGetById getUserById(Long id) {
+    public GetByIdUserResponse getUserById(Long id) {
         User user = userRepository.getById(id);
-        return mapper.UserToUserResponseGetById(user);
+        return mapper.UserToGetByIdUserResponse(user);
     }
 
     @Override
-    public User login(UserRequestLogin userRequestLogin) throws CustomException {
+    public User login(LoginUserRequest userRequestLogin) throws Exception {
         if (Objects.isNull(userRequestLogin)) {
-            throw new CustomException("Body null !");
+            throw new Exception("Body null !");
         }
 
         if (Objects.isNull(userRequestLogin.getUsername())) {
-            throw new CustomException("Username cannot be null ! ");
+            throw new Exception("Username cannot be null ! ");
         }
 
         if (Objects.isNull(userRequestLogin.getPassword())) {
-            throw new CustomException("Password cannot be null !");
+            throw new Exception("Password cannot be null !");
         }
 
         User user1 = userRepository.customQuery(userRequestLogin.getUsername());
 
         if (Objects.isNull(user1)) {
-            throw new CustomException("Bad credentials !");
+            throw new Exception("Bad credentials !");
         }
 
-        if (!user1.getPassword().equals(userRequestLogin.getPassword())) {
-            throw new CustomException("Bad credentials !");
+        if (!bCryptPasswordEncoder.matches(userRequestLogin.getPassword(), user1.getPassword())) {
+            throw new Exception("Bad credentials !");
         }
 
         return user1;

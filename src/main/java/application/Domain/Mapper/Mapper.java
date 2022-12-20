@@ -3,64 +3,87 @@ package application.Domain.Mapper;
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
 import application.Domain.Entities.User;
-import application.Domain.Models.Product.Request.ProductRequestAdd;
-import application.Domain.Models.Product.Response.ProductResponseGetAll;
-import application.Domain.Models.Supermarket.Request.SupermarketRequestCreate;
-import application.Domain.Models.Supermarket.Response.SupermarketResponseGetAll;
-import application.Domain.Models.User.Request.UserRequestRegister;
-import application.Domain.Models.User.Response.UserResponseGetAllUsers;
-import application.Domain.Models.User.Response.UserResponseGetById;
+import application.Domain.Models.Product.Request.AddProductRequest;
+import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
+import application.Domain.Models.Product.Response.GetAllProductsResponse;
+import application.Domain.Models.Product.Response.GetProductByIdResponse;
+import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
+import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
+import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
+import application.Domain.Models.User.Request.RegisterUserRequest;
+import application.Domain.Models.User.Response.GetAllUsersResponse;
+import application.Domain.Models.User.Response.GetByIdUserResponse;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Mapper {
-    public User UserRequestToUser(UserRequestRegister userRequest){
+
+    public User RegisterUserRequestToUser(RegisterUserRequest userRequest){
         User user = new User();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setUsername(userRequest.getUsername());
-        user.setPassword(userRequest.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         user.setName(userRequest.getName());
         user.setSurname(userRequest.getSurname());
         user.setCnp(userRequest.getCnp());
         user.setPhone(userRequest.getPhone());
+        user.setCreationDate(userRequest.getCreationDate());
         return user;
     }
 
-    public UserResponseGetAllUsers UserToUserResponse(User user){
-        UserResponseGetAllUsers user1 = new UserResponseGetAllUsers();
+    public GetAllUsersResponse UserToGetAllUsersResponse(User user){
+        GetAllUsersResponse user1 = new GetAllUsersResponse();
         user1.setName(user.getName());
         user1.setSurname(user.getSurname());
         return user1;
     }
 
-    public UserResponseGetById UserToUserResponseGetById(User user){
-        UserResponseGetById user1 = new UserResponseGetById();
+    public GetByIdUserResponse UserToGetByIdUserResponse(User user){
+        GetByIdUserResponse user1 = new GetByIdUserResponse();
         user1.setName(user.getName());
         user1.setSurname(user.getSurname());
         return user1;
     }
 
-    public Supermarket SupermarketRequestToSupermarket(SupermarketRequestCreate supermarketRequest){
+    public Supermarket CreateSupermarketRequestToSupermarket(AddSupermarketRequest supermarketRequest){
         Supermarket supermarket = new Supermarket();
         supermarket.setName(supermarketRequest.getName());
         supermarket.setAddress(supermarketRequest.getAddress());
+        supermarket.setCreationDate(supermarketRequest.getCreationDate());
         return supermarket;
     }
 
-    public SupermarketResponseGetAll SupermarketToSupermarketResponse(Supermarket supermarket){
-        SupermarketResponseGetAll supermarketResponse = new SupermarketResponseGetAll();
+    public GetSupermarketByIdResponse GetSupermarketByIdResponseToSupermarket(Supermarket supermarket){
+        GetSupermarketByIdResponse getSupermarketByIdResponse = new GetSupermarketByIdResponse();
+        getSupermarketByIdResponse.setName(supermarket.getName());
+        getSupermarketByIdResponse.setAddress(supermarket.getAddress());
+        return getSupermarketByIdResponse;
+    }
+
+    public GetAllSupermarketResponse SupermarketToGetAllSupermarketResponse(Supermarket supermarket){
+        GetAllSupermarketResponse supermarketResponse = new GetAllSupermarketResponse();
         supermarketResponse.setName(supermarket.getName());
         supermarketResponse.setAddress(supermarket.getAddress());
         return supermarketResponse;
     }
 
-    public ProductResponseGetAll ProductToProductResponse(Product product){
-        ProductResponseGetAll productResponse = new ProductResponseGetAll();
+    public GetAllProductsResponse ProductToProductResponse(Product product){
+        GetAllProductsResponse productResponse = new GetAllProductsResponse();
         productResponse.setName(product.getName());
         productResponse.setCategory(product.getCategory());
+        productResponse.setPrice(product.getPrice());
         return productResponse;
     }
 
-    public Product ProductRequestToProduct(ProductRequestAdd productRequest){
+    public GetProductByIdResponse ProductToGetProductByIdResponse(Product product){
+        GetProductByIdResponse productResponse = new GetProductByIdResponse();
+        productResponse.setName(product.getName());
+        productResponse.setCategory(product.getCategory());
+        productResponse.setPrice(product.getPrice());
+        return productResponse;
+    }
+    public Product AddProductRequestToProduct(AddProductRequest productRequest){
         Product product = new Product();
         product.setName(productRequest.getName());
         product.setBrand(productRequest.getBrand());
@@ -68,6 +91,8 @@ public class Mapper {
         product.setPrice(productRequest.getPrice());
         product.setExpirationDate(productRequest.getExpirationDate());
         product.setSupermarket(productRequest.getSupermarket());
+        product.setCreationDate(productRequest.getCreationDate());
         return product;
     }
+
 }

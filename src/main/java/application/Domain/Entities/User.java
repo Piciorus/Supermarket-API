@@ -3,6 +3,7 @@ package application.Domain.Entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class User {
     private Long id;
     @Column(name="Username", nullable = false, length = 50)
     private String username;
-    @Column(name="Password", nullable = false, length = 50)
+    @Column(name="Password", nullable = false, length = 200)
     private String password;
 
     @Column(name="Name", nullable = false, length = 50)
@@ -28,17 +29,21 @@ public class User {
     @Column(name="CNP", nullable = false, length = 50)
     private String cnp;
 
+    @Column(name="CreationDate", nullable = false, length = 50)
+    private Date creationDate;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private final List<Role> roles = new ArrayList<>(0);
 
-    public User(String username, String password, String name, String surname, String phone, String cnp) {
+    public User(String username, String password, String name, String surname, String phone, String cnp, Date creationDate ) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.cnp = cnp;
+        this.creationDate = creationDate;
     }
 
     public User() {
@@ -101,6 +106,13 @@ public class User {
         this.cnp = cnp;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
 }
 

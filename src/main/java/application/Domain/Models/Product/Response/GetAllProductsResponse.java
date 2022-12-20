@@ -1,15 +1,18 @@
 package application.Domain.Models.Product.Response;
 
-public class ProductResponseGetAll {
+public class GetAllProductsResponse {
     private String name;
     private String category;
 
-    public ProductResponseGetAll(String name, String category) {
+    private int price;
+
+    public GetAllProductsResponse(String name, String category, int price) {
         this.name = name;
         this.category = category;
+        this.price = price;
     }
 
-    public ProductResponseGetAll() {
+    public GetAllProductsResponse() {
     }
 
     public String getName() {
@@ -26,5 +29,13 @@ public class ProductResponseGetAll {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

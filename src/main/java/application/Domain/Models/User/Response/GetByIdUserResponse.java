@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseGetById {
+public class GetByIdUserResponse {
     private @Getter @Setter String name;
     private @Getter @Setter String surname;
 }

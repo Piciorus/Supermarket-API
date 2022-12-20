@@ -1,15 +1,15 @@
 package application.Domain.Models.User.Response;
 
-public class UserResponseGetAllUsers {
+public class GetAllUsersResponse {
     private String name;
     private String surname;
 
-    public UserResponseGetAllUsers(String name, String surname) {
+    public GetAllUsersResponse(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
 
-    public UserResponseGetAllUsers() {
+    public GetAllUsersResponse() {
     }
 
 

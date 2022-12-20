@@ -1,9 +1,11 @@
 package application.Services.Implementation;
 
 import application.Domain.Entities.Supermarket;
-import application.Domain.Models.Supermarket.Request.SupermarketRequestCreate;
-import application.Domain.Models.Supermarket.Response.SupermarketResponseGetAll;
+import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
+import application.Domain.Models.Supermarket.Request.UpdateSupermarketRequest;
+import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
 import application.Domain.Mapper.Mapper;
+import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
 import application.Repository.SupermarketRepository;
 import application.Services.Interface.ISupermarketService;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,8 @@ public class SupermarketService implements ISupermarketService {
     }
 
     @Override
-    public Supermarket createSupermarket(SupermarketRequestCreate supermarketRequest) {
-        Supermarket supermarket = mapper.SupermarketRequestToSupermarket(supermarketRequest);
+    public Supermarket createSupermarket(AddSupermarketRequest supermarketRequest) {
+        Supermarket supermarket = mapper.CreateSupermarketRequestToSupermarket(supermarketRequest);
         return supermarketRepository.save(supermarket);
     }
 
@@ -35,24 +37,26 @@ public class SupermarketService implements ISupermarketService {
     }
 
     @Override
-    public Iterable<SupermarketResponseGetAll> getAllSupermarkets() {
-        List<SupermarketResponseGetAll> list = new ArrayList<>();
+    public Iterable<GetAllSupermarketResponse> getAllSupermarkets() {
+        List<GetAllSupermarketResponse> list = new ArrayList<>();
         supermarketRepository.findAll().forEach(supermarket -> {
-            list.add(mapper.SupermarketToSupermarketResponse(supermarket));
+            list.add(mapper.SupermarketToGetAllSupermarketResponse(supermarket));
         });
         return list;
     }
 
     @Override
-    public Supermarket getSupermarketById(Long id) {
-        return supermarketRepository.getById(id);
+    public GetSupermarketByIdResponse getSupermarketById(Long id) {
+        Supermarket supermarket = supermarketRepository.getById(id);
+        return mapper.GetSupermarketByIdResponseToSupermarket(supermarket);
     }
 
     @Override
-    public Supermarket updateSupermarket(Supermarket supermarket, Long id) {
+    public Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, Long id) {
         Supermarket supermarketUpdated=supermarketRepository.getById(id);
-        supermarketUpdated.setName(supermarket.getName());
-        supermarketUpdated.setAddress(supermarket.getAddress());
+        supermarketUpdated.setName(updateSupermarketRequest.getName());
+        supermarketUpdated.setAddress(updateSupermarketRequest.getAddress());
+        supermarketUpdated.setUpdateDate(updateSupermarketRequest.getUpdateDate());
         return supermarketRepository.save(supermarketUpdated);
     }
 }

@@ -1,16 +1,15 @@
 package application.Services.Interface;
 
 import application.Domain.Entities.User;
-import application.Domain.Models.User.Request.UserRequestLogin;
-import application.Domain.Models.User.Request.UserRequestRegister;
-import application.Domain.Models.User.Response.UserResponseGetAllUsers;
-import application.Domain.Models.User.Response.UserResponseGetById;
-import application.Exception.CustomException;
+import application.Domain.Models.User.Request.LoginUserRequest;
+import application.Domain.Models.User.Request.RegisterUserRequest;
+import application.Domain.Models.User.Response.GetAllUsersResponse;
+import application.Domain.Models.User.Response.GetByIdUserResponse;
 
 public interface IUserService {
-    User register(UserRequestRegister userRequest);
+    User register(RegisterUserRequest userRequest);
     void deleteUserById(Long id);
-    Iterable<UserResponseGetAllUsers> getAllUsers();
-    UserResponseGetById getUserById(Long id);
-    User login(UserRequestLogin userRequestLogin) throws CustomException;
+    Iterable<GetAllUsersResponse> getAllUsers();
+    GetByIdUserResponse getUserById(Long id);
+    User login(LoginUserRequest userRequestLogin) throws  Exception;
 }

@@ -1,15 +1,15 @@
 package application.Domain.Models.Supermarket.Response;
 
-public class SupermarketResponseGetAll {
+public class GetSupermarketByIdResponse {
     private String name;
     private String address;
 
-    public SupermarketResponseGetAll(String name, String address) {
+    public GetSupermarketByIdResponse(String name, String address) {
         this.name = name;
         this.address = address;
     }
 
-    public SupermarketResponseGetAll() {
+    public GetSupermarketByIdResponse() {
     }
 
     public String getName() {

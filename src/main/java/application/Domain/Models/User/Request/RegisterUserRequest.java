@@ -1,6 +1,8 @@
 package application.Domain.Models.User.Request;
 
-public class UserRequestRegister {
+import java.util.Date;
+
+public class RegisterUserRequest {
     private String username;
     private String password;
 
@@ -12,16 +14,19 @@ public class UserRequestRegister {
 
     private String phone;
 
-    public UserRequestRegister(String username, String password, String name, String surname, String cnp, String phone) {
+    private Date creationDate;
+
+    public RegisterUserRequest(String username, String password, String name, String surname, String cnp, String phone) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.cnp = cnp;
         this.phone = phone;
+        this.creationDate = new Date();
     }
 
-    public UserRequestRegister() {
+    public RegisterUserRequest() {
     }
 
     public String getUsername() {
@@ -70,5 +75,13 @@ public class UserRequestRegister {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

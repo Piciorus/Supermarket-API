@@ -1,6 +1,7 @@
 package application.Domain.Entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Products")
@@ -19,16 +20,22 @@ public class Product {
 
     @Column(name="Price", nullable = false, length = 50)
     private int price;
+    @Column(name="CreationDate", nullable = false, length = 50)
+    private Date creationDate;
+    @Column(name="UpdateDate", nullable = true, length = 50)
+    private Date updateDate;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "supermarket_id", nullable = false)
     private Supermarket supermarket;
-    public Product(int id,String name, String brand, String category, String expirationDate, int price) {
+    public Product(int id,String name, String brand, String category, String expirationDate, int price, Date creationDate, Date updateDate) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.category = category;
         this.expirationDate = expirationDate;
         this.price = price;
+        this.creationDate = creationDate;
+        this.updateDate = updateDate;
     }
 
     public Product() {
@@ -88,6 +95,22 @@ public class Product {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
 }

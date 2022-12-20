@@ -2,10 +2,11 @@ package application.Services.Implementation;
 
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
-import application.Domain.Models.Product.Request.ProductRequestAdd;
-import application.Domain.Models.Product.Request.ProductRequestUpdatePrice;
-import application.Domain.Models.Product.Response.ProductResponseGetAll;
+import application.Domain.Models.Product.Request.AddProductRequest;
+import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
+import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Mapper.Mapper;
+import application.Domain.Models.Product.Response.GetProductByIdResponse;
 import application.Repository.ProductRepository;
 import application.Repository.SupermarketRepository;
 import application.Services.Interface.IProductService;
@@ -27,9 +28,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product addProductToSupermarket(ProductRequestAdd productRequestAdd, Long id) {
+    public Product addProductToSupermarket(AddProductRequest productRequestAdd, Long id) {
         productRequestAdd.setSupermarket(supermarketRepository.getById(id));
-        Product product = mapper.ProductRequestToProduct(productRequestAdd);
+        Product product = mapper.AddProductRequestToProduct(productRequestAdd);
         return productRepository.save(product);
     }
 
@@ -39,9 +40,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductResponseGetAll> getAllProductsFromSupermarket(Long id) {
+    public List<GetAllProductsResponse> getAllProductsFromSupermarket(Long id) {
         Supermarket supermarket=supermarketRepository.getById(id);
-        List<ProductResponseGetAll> list = new ArrayList<>();
+        List<GetAllProductsResponse> list = new ArrayList<>();
         supermarket.getProducts().forEach(product -> {
             list.add(mapper.ProductToProductResponse(product));
         });
@@ -49,14 +50,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return productRepository.getById(id);
+    public GetProductByIdResponse getProductById(Long id) {
+        Product product = productRepository.getById(id);
+        return mapper.ProductToGetProductByIdResponse(product);
     }
 
     @Override
-    public Product updateProductPrice(ProductRequestUpdatePrice productRequestUpdatePrice, Long id) {
+    public Product updateProductPrice(UpdatePriceProductRequest productRequestUpdatePrice, Long id) {
         Product productUpdated=productRepository.getById(id);
         productUpdated.setPrice(productRequestUpdatePrice.getPrice());
+        productUpdated.setUpdateDate(productRequestUpdatePrice.getUpdateDate());
         return productRepository.save(productUpdated);
     }
 }

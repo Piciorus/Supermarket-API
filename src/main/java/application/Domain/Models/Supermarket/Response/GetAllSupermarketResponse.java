@@ -1,12 +1,15 @@
-package application.Domain.Models.Supermarket.Request;
+package application.Domain.Models.Supermarket.Response;
 
-public class SupermarketRequestCreate {
+public class GetAllSupermarketResponse {
     private String name;
     private String address;
 
-    public SupermarketRequestCreate(String name, String address) {
+    public GetAllSupermarketResponse(String name, String address) {
         this.name = name;
         this.address = address;
+    }
+
+    public GetAllSupermarketResponse() {
     }
 
     public String getName() {
@@ -24,5 +27,4 @@ public class SupermarketRequestCreate {
     public void setAddress(String address) {
         this.address = address;
     }
-
 }
