@@ -12,4 +12,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     Iterable<User> findAll();
     @Query(value="SELECT * FROM users WHERE username=?1",nativeQuery = true)
     User customQuery(String username);
+    User findByUsername(String username);
 }

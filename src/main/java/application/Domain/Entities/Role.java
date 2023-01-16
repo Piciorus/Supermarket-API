@@ -1,10 +1,12 @@
 package application.Domain.Entities;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,15 +21,19 @@ public class Role {
         this.role = role;
     }
 
-    public long getId() {
+    public long  getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(long  id) {
         this.id = id;
     }
 
     public String getRole() {
         return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -11,21 +11,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://localhost:4200", maxAge = 3600)
+@CrossOrigin("*")
 @RestController()
 @Component
 public class UserController {
 
     private IUserService accountService;
-    @Autowired
     public UserController(IUserService accountService) {
         this.accountService = accountService;
     }
 
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> addAccount(@RequestBody final RegisterUserRequest userRequestRegister ) {
-        accountService.register(userRequestRegister);
+    public ResponseEntity<String> addAccount(@RequestBody final RegisterUserRequest registerUserRequest) {
+        accountService.register(registerUserRequest);
         return new ResponseEntity<>("User created ",HttpStatus.OK);
     }
 
@@ -35,8 +34,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> loginUser(@RequestBody final LoginUserRequest userRequestLogin) throws Exception {
-        accountService.login(userRequestLogin);
+    public ResponseEntity<String> loginUser(@RequestBody final LoginUserRequest userLogin) throws Exception {
+        accountService.login(userLogin);
         return ResponseEntity.ok("You are logged in ");
     }
 

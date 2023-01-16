@@ -1,10 +1,12 @@
 package application.Services.Implementation;
 
+import application.Domain.Entities.Role;
 import application.Domain.Entities.User;
 import application.Domain.Models.User.Request.LoginUserRequest;
 import application.Domain.Models.User.Request.RegisterUserRequest;
 import application.Domain.Models.User.Response.GetAllUsersResponse;
 import application.Domain.Models.User.Response.GetByIdUserResponse;
+import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
 import application.Services.Interface.IUserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,22 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Service
 public class UserService implements IUserService {
     private UserRepository userRepository;
     private Mapper mapper;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public UserService(UserRepository userRepository, Mapper mapper) {
+    private RoleRepository roleRepository;
+    public UserService(UserRepository userRepository, Mapper mapper,RoleRepository roleRepository,BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.mapper = mapper;
-        bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleRepository = roleRepository;
     }
     @Override
     public User register(RegisterUserRequest userRequestRegister) {
-        User user = mapper.RegisterUserRequestToUser(userRequestRegister);
-        return userRepository.save(user);
+        return userRepository.save(mapper.RegisterUserRequestToUser(userRequestRegister));
     }
+
 
     @Override
     public void deleteUserById(Long id) {
@@ -66,7 +68,7 @@ public class UserService implements IUserService {
             throw new Exception("Password cannot be null !");
         }
 
-        User user1 = userRepository.customQuery(userRequestLogin.getUsername());
+        User user1 = userRepository.findByUsername(userRequestLogin.getUsername());
 
         if (Objects.isNull(user1)) {
             throw new Exception("Bad credentials !");
@@ -78,5 +80,8 @@ public class UserService implements IUserService {
 
         return user1;
     }
+
+
+
 
 }

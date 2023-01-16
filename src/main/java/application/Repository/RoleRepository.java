@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
@@ -15,5 +16,8 @@ public interface RoleRepository extends CrudRepository<Role, Long> {
             "inner join roles on user_role.role_id=roles.id\n" +
             "where roles.role='admin' ",nativeQuery = true)
     List<Role> findUsernameAndPasswordByRole(String role);
+
+    Set<Role> findByRole(String role);
+
 
 }

@@ -1,17 +1,21 @@
 package application.Domain.Entities;
 
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name="Username", nullable = false, length = 50)
     private String username;
     @Column(name="Password", nullable = false, length = 200)
@@ -29,14 +33,14 @@ public class User {
     @Column(name="CNP", nullable = false, length = 50)
     private String cnp;
 
-    @Column(name="CreationDate", nullable = false, length = 50)
+    @Column(name="CreationDate", nullable = true, length = 50)
     private Date creationDate;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private final List<Role> roles = new ArrayList<>(0);
+    private List<Role> roles = new ArrayList<>(0);
 
-    public User(String username, String password, String name, String surname, String phone, String cnp, Date creationDate ) {
+    public User(String username, String password, String name, String surname, String phone, String cnp, Date creationDate) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -44,6 +48,7 @@ public class User {
         this.phone = phone;
         this.cnp = cnp;
         this.creationDate = creationDate;
+//        this.roles=roles;
     }
 
     public User() {
@@ -66,13 +71,13 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public long  getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;
@@ -112,6 +117,14 @@ public class User {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
 }

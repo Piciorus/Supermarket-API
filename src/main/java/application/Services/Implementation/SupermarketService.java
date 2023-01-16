@@ -10,6 +10,7 @@ import application.Repository.SupermarketRepository;
 import application.Services.Interface.ISupermarketService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,6 @@ public class SupermarketService implements ISupermarketService {
     private SupermarketRepository supermarketRepository;
 
     private Mapper mapper;
-
 
     public SupermarketService(SupermarketRepository supermarketRepository, Mapper mapper) {
         this.supermarketRepository = supermarketRepository;
@@ -59,4 +59,13 @@ public class SupermarketService implements ISupermarketService {
         supermarketUpdated.setUpdateDate(updateSupermarketRequest.getUpdateDate());
         return supermarketRepository.save(supermarketUpdated);
     }
+
+    public Iterable<GetAllSupermarketResponse> findAll() {
+        List<GetAllSupermarketResponse> list = new ArrayList<>();
+        supermarketRepository.findAll().forEach(supermarket -> {
+            list.add(mapper.SupermarketToGetAllSupermarketResponse(supermarket));
+        });
+        return list;
+    }
+
 }

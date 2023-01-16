@@ -4,7 +4,6 @@ import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
 import application.Domain.Entities.User;
 import application.Domain.Models.Product.Request.AddProductRequest;
-import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Models.Product.Response.GetProductByIdResponse;
 import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
@@ -16,12 +15,15 @@ import application.Domain.Models.User.Response.GetByIdUserResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class Mapper {
 
     public User RegisterUserRequestToUser(RegisterUserRequest userRequest){
         User user = new User();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        user.setId(UUID.randomUUID());
         user.setUsername(userRequest.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         user.setName(userRequest.getName());
@@ -29,6 +31,7 @@ public class Mapper {
         user.setCnp(userRequest.getCnp());
         user.setPhone(userRequest.getPhone());
         user.setCreationDate(userRequest.getCreationDate());
+//        user.setRoles(userRequest.getRoles());
         return user;
     }
 
@@ -36,6 +39,7 @@ public class Mapper {
         GetAllUsersResponse user1 = new GetAllUsersResponse();
         user1.setName(user.getName());
         user1.setSurname(user.getSurname());
+        user1.setRole(user.getRoles());
         return user1;
     }
 

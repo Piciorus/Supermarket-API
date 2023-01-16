@@ -1,6 +1,10 @@
 package application.Domain.Models.User.Request;
 
+import application.Domain.Entities.Role;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class RegisterUserRequest {
     private String username;
@@ -16,6 +20,8 @@ public class RegisterUserRequest {
 
     private Date creationDate;
 
+    private List<Role> roles;
+
     public RegisterUserRequest(String username, String password, String name, String surname, String cnp, String phone) {
         this.username = username;
         this.password = password;
@@ -24,9 +30,7 @@ public class RegisterUserRequest {
         this.cnp = cnp;
         this.phone = phone;
         this.creationDate = new Date();
-    }
-
-    public RegisterUserRequest() {
+//        this.roles.add(new Role("User"));
     }
 
     public String getUsername() {
@@ -83,5 +87,13 @@ public class RegisterUserRequest {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

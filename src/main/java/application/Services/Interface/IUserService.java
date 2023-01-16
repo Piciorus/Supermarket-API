@@ -12,4 +12,5 @@ public interface IUserService {
     Iterable<GetAllUsersResponse> getAllUsers();
     GetByIdUserResponse getUserById(Long id);
     User login(LoginUserRequest userRequestLogin) throws  Exception;
+
 }

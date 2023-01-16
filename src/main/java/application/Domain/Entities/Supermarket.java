@@ -2,12 +2,19 @@ package application.Domain.Entities;
 
 //import application.Domain.Entities.Employee;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Supermarkets")
+@SQLDelete(sql = "UPDATE supermarkets SET deleted = 1 WHERE id=?")
+@Where(clause = "deleted = 0")
 public class Supermarket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +27,19 @@ public class Supermarket {
     private Date creationDate;
     @Column(name="UpdateDate", nullable = true, length = 50)
     private Date updateDate;
+    private boolean deleted;
 
     @OneToMany(mappedBy = "supermarket", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Product> products;
 
-    public Supermarket(long id,String name, String address,List<Product> products,Date creationDate,Date updateDate) {
+    public Supermarket(long id,String name, String address,List<Product> products,Date creationDate,Date updateDate,boolean deleted) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.products = products;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
+        this.deleted = deleted;
     }
 
     public Supermarket() {
