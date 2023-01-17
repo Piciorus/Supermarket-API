@@ -26,7 +26,7 @@ public class SupermarketController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> addSupermarket(@RequestBody final AddSupermarketRequest supermarketRequestCreate) {
         supermarketService.createSupermarket(supermarketRequestCreate);
-        return new ResponseEntity<>("Supermarket created ",HttpStatus.OK);
+        return ResponseEntity.ok("Supermarket created");
     }
 
     @GetMapping(path = "/getAllSupermarkets")
@@ -42,12 +42,12 @@ public class SupermarketController {
     @DeleteMapping(path = "/deleteSupermarketById/{id}")
     public ResponseEntity<String> deleteSupermarketById(@PathVariable("id") Long supermarketId) {
         supermarketService.deleteSupermarketById(supermarketId);
-        return new ResponseEntity<>("Supermarket deleted",HttpStatus.OK);
+        return ResponseEntity.ok("Supermarket deleted");
     }
 
     @PutMapping(path = "/updateSupermarket/{id}")
     public ResponseEntity<String> updateSupermarket(@RequestBody final UpdateSupermarketRequest updateSupermarketRequest, @PathVariable("id") Long supermarketId) {
         supermarketService.updateSupermarket(updateSupermarketRequest, supermarketId);
-        return new ResponseEntity<>("Supermarket updated",HttpStatus.OK);
+        return ResponseEntity.ok("Supermarket updated");
     }
 }

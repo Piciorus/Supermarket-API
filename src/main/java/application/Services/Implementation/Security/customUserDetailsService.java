@@ -1,16 +1,13 @@
-package application.Services.Implementation;
+package application.Services.Implementation.Security;
 
-import application.Domain.Entities.CustomUserDetails;
+import application.Domain.Entities.Security.CustomUserDetails;
 import application.Domain.Entities.User;
 import application.Repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-
-import static java.util.Collections.emptyList;
 
 public class customUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;

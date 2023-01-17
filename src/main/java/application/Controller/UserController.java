@@ -25,9 +25,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> addAccount(@RequestBody final RegisterUserRequest registerUserRequest) {
         accountService.register(registerUserRequest);
-        return new ResponseEntity<>("User created ",HttpStatus.OK);
+        return ResponseEntity.ok("User created ");
     }
-
     @GetMapping(path = "/getAllUsers")
     public Iterable<GetAllUsersResponse> getAllAccounts() {
         return accountService.getAllUsers();

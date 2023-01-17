@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Supermarkets")
@@ -17,8 +18,8 @@ import java.util.List;
 @Where(clause = "deleted = 0")
 public class Supermarket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(columnDefinition = "uniqueidentifier", name = "id")
+    private UUID id;
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Address", nullable = false, length = 50)
@@ -28,12 +29,10 @@ public class Supermarket {
     @Column(name="UpdateDate", nullable = true, length = 50)
     private Date updateDate;
     private boolean deleted;
-
     @OneToMany(mappedBy = "supermarket", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Product> products;
 
-    public Supermarket(long id,String name, String address,List<Product> products,Date creationDate,Date updateDate,boolean deleted) {
-        this.id = id;
+    public Supermarket(String name, String address,List<Product> products,Date creationDate,Date updateDate,boolean deleted) {
         this.name = name;
         this.address = address;
         this.products = products;
@@ -62,11 +61,11 @@ public class Supermarket {
         this.address = address;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

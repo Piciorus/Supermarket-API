@@ -2,6 +2,7 @@ package application.Domain.Mapper;
 
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
+import application.Domain.Entities.Task;
 import application.Domain.Entities.User;
 import application.Domain.Models.Product.Request.AddProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
@@ -9,6 +10,9 @@ import application.Domain.Models.Product.Response.GetProductByIdResponse;
 import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
 import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
 import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
+import application.Domain.Models.Task.Request.AddTaskRequest;
+import application.Domain.Models.Task.Response.GetAllTasksResponse;
+import application.Domain.Models.Task.Response.GetTaskByIdResponse;
 import application.Domain.Models.User.Request.RegisterUserRequest;
 import application.Domain.Models.User.Response.GetAllUsersResponse;
 import application.Domain.Models.User.Response.GetByIdUserResponse;
@@ -23,7 +27,7 @@ public class Mapper {
     public User RegisterUserRequestToUser(RegisterUserRequest userRequest){
         User user = new User();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        user.setId(UUID.randomUUID());
+        user.setId(UUID.randomUUID());
         user.setUsername(userRequest.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         user.setName(userRequest.getName());
@@ -31,7 +35,6 @@ public class Mapper {
         user.setCnp(userRequest.getCnp());
         user.setPhone(userRequest.getPhone());
         user.setCreationDate(userRequest.getCreationDate());
-//        user.setRoles(userRequest.getRoles());
         return user;
     }
 
@@ -52,6 +55,7 @@ public class Mapper {
 
     public Supermarket CreateSupermarketRequestToSupermarket(AddSupermarketRequest supermarketRequest){
         Supermarket supermarket = new Supermarket();
+        supermarket.setId(UUID.randomUUID());
         supermarket.setName(supermarketRequest.getName());
         supermarket.setAddress(supermarketRequest.getAddress());
         supermarket.setCreationDate(supermarketRequest.getCreationDate());
@@ -89,6 +93,7 @@ public class Mapper {
     }
     public Product AddProductRequestToProduct(AddProductRequest productRequest){
         Product product = new Product();
+        product.setProductId(UUID.randomUUID());
         product.setName(productRequest.getName());
         product.setBrand(productRequest.getBrand());
         product.setCategory(productRequest.getCategory());
@@ -97,6 +102,29 @@ public class Mapper {
         product.setSupermarket(productRequest.getSupermarket());
         product.setCreationDate(productRequest.getCreationDate());
         return product;
+    }
+
+    public Task AddTaskRequestToTask(AddTaskRequest taskRequest){
+        Task task = new Task();
+        task.setTaskId(UUID.randomUUID());
+        task.setDescription(taskRequest.getDescription());
+        task.setCreationDate(taskRequest.getCreationDate());
+        task.setDateToComplete(taskRequest.getDateToComplete());
+        return task;
+    }
+
+    public GetAllTasksResponse TaskToGetAllTasksResponse(Task task){
+        GetAllTasksResponse taskResponse = new GetAllTasksResponse();
+        taskResponse.setDescription(task.getDescription());
+        taskResponse.setDateToComplete(task.getDateToComplete());
+        return taskResponse;
+    }
+
+    public GetTaskByIdResponse TaskToGetTaskByIdResponse(Task task){
+        GetTaskByIdResponse taskResponse = new GetTaskByIdResponse();
+        taskResponse.setDescription(task.getDescription());
+        taskResponse.setDateToComplete(task.getDateToComplete());
+        return taskResponse;
     }
 
 }

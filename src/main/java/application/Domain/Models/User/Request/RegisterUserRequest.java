@@ -30,7 +30,6 @@ public class RegisterUserRequest {
         this.cnp = cnp;
         this.phone = phone;
         this.creationDate = new Date();
-//        this.roles.add(new Role("User"));
     }
 
     public String getUsername() {

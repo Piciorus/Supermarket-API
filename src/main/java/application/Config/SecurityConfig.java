@@ -31,16 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        String password = bCryptPasswordEncoder.encode("password");
-//
-//        auth.inMemoryAuthentication()
-//                .withUser("user").password(password).roles("USER")
-//                .and()
-//                .withUser("admin").password(password).roles("ADMIN");
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -73,47 +63,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin().disable()
         .httpBasic();
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//    }
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }
-
-//http.csrf().disable();
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http
-//        .authorizeRequests()
-////              -user-
-//        .antMatchers(HttpMethod.POST, "/register").hasRole("USER")
-//        .antMatchers(HttpMethod.POST, "/login").hasRole("USER")
-////              -admin-
-//        .antMatchers(HttpMethod.GET, "/getAllUsers").hasAnyRole("ADMIN", BASIC_USER_ROLE)
-//        .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.POST, "/createSupermarket").hasRole("USER")
-//        .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasRole("USER")
-//        .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.DELETE,"/deleteProductFromSupermarket/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.POST,"/getAllProductsFromSupermarket/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.GET,"/getProductById/{id}").hasRole("USER")
-//        .antMatchers(HttpMethod.GET,"/createEmployee").hasRole("USER")
-//        .anyRequest()
-//        .authenticated()
-//        .and()
-//        .cors()
-//        .and()
-//        .formLogin().disable()
-//        .httpBasic();
-
 
 
 

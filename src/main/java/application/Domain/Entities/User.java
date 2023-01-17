@@ -13,9 +13,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "Users")
 public class User {
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(columnDefinition = "uniqueidentifier", name = "id")
+    private UUID id;
     @Column(name="Username", nullable = false, length = 50)
     private String username;
     @Column(name="Password", nullable = false, length = 200)
@@ -36,6 +37,11 @@ public class User {
     @Column(name="CreationDate", nullable = true, length = 50)
     private Date creationDate;
 
+    @OneToOne(mappedBy = "user")
+    private ShoppingList shoppingList;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Task> tasks;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>(0);
@@ -48,7 +54,6 @@ public class User {
         this.phone = phone;
         this.cnp = cnp;
         this.creationDate = creationDate;
-//        this.roles=roles;
     }
 
     public User() {
@@ -71,13 +76,12 @@ public class User {
         this.password = password;
     }
 
-//    public long  getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public UUID  getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -125,6 +129,14 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
     }
 
 }

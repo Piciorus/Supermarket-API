@@ -2,13 +2,14 @@ package application.Domain.Entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(columnDefinition = "uniqueidentifier", name = "id")
+    private UUID id;
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Brand", nullable = false, length = 50)
@@ -25,10 +26,13 @@ public class Product {
     @Column(name="UpdateDate", nullable = true, length = 50)
     private Date updateDate;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "supermarket_id", nullable = false)
+    @JoinColumn(name = "supermarket_id", nullable = true)
     private Supermarket supermarket;
-    public Product(int id,String name, String brand, String category, String expirationDate, int price, Date creationDate, Date updateDate) {
-        this.id = id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "shoppingList_id", nullable = true)
+    private ShoppingList shoppingList;
+    public Product(String name, String brand, String category, String expirationDate, int price, Date creationDate, Date updateDate) {
         this.name = name;
         this.brand = brand;
         this.category = category;
@@ -81,11 +85,11 @@ public class Product {
         this.expirationDate = expirationDate;
     }
 
-    public long getProductId() {
+    public UUID getProductId() {
         return id;
     }
 
-    public void setProductId(long ProductId) {
+    public void setProductId(UUID ProductId) {
         this.id = ProductId;
     }
 

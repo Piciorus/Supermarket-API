@@ -4,7 +4,7 @@ import application.Domain.Mapper.Mapper;
 import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
 import application.Services.Implementation.UserService;
-import application.Services.Implementation.customUserDetailsService;
+import application.Services.Implementation.Security.customUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;

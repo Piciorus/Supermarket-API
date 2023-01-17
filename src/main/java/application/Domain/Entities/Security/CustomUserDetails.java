@@ -1,5 +1,6 @@
-package application.Domain.Entities;
+package application.Domain.Entities.Security;
 
+import application.Domain.Entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
