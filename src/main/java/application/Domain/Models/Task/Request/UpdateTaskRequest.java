@@ -6,14 +6,14 @@ public class UpdateTaskRequest {
     private String description;
 
     private Date updateDate;
-    private boolean status;
+    private String status;
 
-    private Date dateToComplete;
+    private String dateToComplete;
 
-    public UpdateTaskRequest(String description, boolean status, Date updateDate, Date dateToComplete) {
+    public UpdateTaskRequest(String description, String status, String dateToComplete) {
         this.description = description;
         this.status = status;
-        this.updateDate = updateDate;
+        this.updateDate = new Date();
         this.dateToComplete = dateToComplete;
     }
 
@@ -25,11 +25,11 @@ public class UpdateTaskRequest {
         this.description = description;
     }
 
-    public boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -41,11 +41,11 @@ public class UpdateTaskRequest {
         this.updateDate = updateDate;
     }
 
-    public Date getDateToComplete() {
+    public String getDateToComplete() {
         return dateToComplete;
     }
 
-    public void setDateToComplete(Date dateToComplete) {
+    public void setDateToComplete(String dateToComplete) {
         this.dateToComplete = dateToComplete;
     }
 }

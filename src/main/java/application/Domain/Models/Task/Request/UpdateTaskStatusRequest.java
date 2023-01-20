@@ -3,19 +3,19 @@ package application.Domain.Models.Task.Request;
 import java.util.Date;
 
 public class UpdateTaskStatusRequest {
-    private boolean status;
+    private String status;
     private Date updateDate;
 
-    public UpdateTaskStatusRequest(boolean status, Date updateDate) {
+    public UpdateTaskStatusRequest(String status, Date updateDate) {
         this.status = status;
         this.updateDate = new Date();
     }
 
-    public boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

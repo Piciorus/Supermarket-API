@@ -2,6 +2,7 @@ package application.Controller;
 
 import application.Domain.Entities.Product;
 import application.Domain.Models.Product.Request.AddProductRequest;
+import application.Domain.Models.Product.Request.CreateProductRequest;
 import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Models.Product.Response.GetProductByIdResponse;
@@ -12,12 +13,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
-@CrossOrigin(origins = "https://localhost:4200", maxAge = 3600)
+@CrossOrigin("*")
 @RestController()
 @Component
 public class ProductController {
-    private IProductService productService;
+    private final IProductService productService;
 
     @Autowired
     public ProductController(IProductService productService) {
@@ -25,36 +27,37 @@ public class ProductController {
     }
 
     @PostMapping(path = "/addProductToSupermarket/{id}")
-    public ResponseEntity<String> addProductToSupermarket(@RequestBody final AddProductRequest productRequestAdd, @PathVariable("id") Long supermarketId)
+    public ResponseEntity<String> addProductToSupermarket(@RequestBody final AddProductRequest addProductRequest, @PathVariable("id") UUID supermarketId)
     {
-        productService.addProductToSupermarket(productRequestAdd, supermarketId);
+        productService.addProductToSupermarket(addProductRequest, supermarketId);
         return ResponseEntity.ok("Product added to supermarket");
     }
 
     @DeleteMapping(path = "/deleteProductFromSupermarket/{id}")
-    public ResponseEntity<String> deleteProductFromSupermarket(@PathVariable("id") Long productId)
+    public ResponseEntity<String> deleteProductFromSupermarket(@PathVariable("id") UUID productId)
     {
         productService.deleteProductFromSupermarket(productId);
         return ResponseEntity.ok("Product deleted from supermarket");
     }
 
     @GetMapping(path = "/getAllProductsFromSupermarket/{id}")
-    public ResponseEntity<List<GetAllProductsResponse>> getAllProductsFromSupermarket(@PathVariable("id") Long supermarketId)
+    public ResponseEntity<List<GetAllProductsResponse>> getAllProductsFromSupermarket(@PathVariable("id") UUID supermarketId)
     {
         return ResponseEntity.ok(productService.getAllProductsFromSupermarket(supermarketId));
     }
 
     @PutMapping(path = "/updateProductPrice/{id}")
-    public ResponseEntity<String> updateProductPrice(@RequestBody final UpdatePriceProductRequest productRequestUpdatePrice, @PathVariable("id") Long productId)
+    public ResponseEntity<String> updateProductPrice(@RequestBody final UpdatePriceProductRequest updatePriceProductRequest, @PathVariable("id") UUID productId)
     {
-        productService.updateProductPrice(productRequestUpdatePrice, productId);
+        productService.updateProductPrice(updatePriceProductRequest, productId);
         return ResponseEntity.ok("Product price updated");
     }
 
     @GetMapping(path = "/getProductById/{id}")
-    public ResponseEntity<GetProductByIdResponse> getProductById(@PathVariable("id") Long productId)
+    public ResponseEntity<GetProductByIdResponse> getProductById(@PathVariable("id") UUID productId)
     {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
+
 
 }

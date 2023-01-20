@@ -6,9 +6,9 @@ public class GetAllTasksResponse {
     private String description;
     private boolean status;
 
-    private Date dateToComplete;
+    private String dateToComplete;
 
-    public GetAllTasksResponse(String description, boolean status, Date dateToComplete) {
+    public GetAllTasksResponse(String description, boolean status, String dateToComplete) {
         this.description = description;
         this.dateToComplete = dateToComplete;
         this.status = status;
@@ -33,11 +33,11 @@ public class GetAllTasksResponse {
         this.status = status;
     }
 
-    public Date getDateToComplete() {
+    public String getDateToComplete() {
         return dateToComplete;
     }
 
-    public void setDateToComplete(Date dateToComplete) {
+    public void setDateToComplete(String dateToComplete) {
         this.dateToComplete = dateToComplete;
     }
 }

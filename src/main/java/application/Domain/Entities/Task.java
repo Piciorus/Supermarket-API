@@ -1,5 +1,7 @@
 package application.Domain.Entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -8,12 +10,13 @@ import java.util.UUID;
 @Table(name = "Tasks")
 public class Task {
     @Id
-    @Column(columnDefinition = "uniqueidentifier", name = "id")
-    private UUID id;
+    @Column(name = "id")
+    @Type(type = "uuid-char")
+    private UUID id = UUID.randomUUID();
     @Column(name="Description", nullable = false, length = 50)
     private String description;
     @Column(name="Status", nullable = false, length = 50)
-    private boolean status;
+    private String status;
 
     @Column(name="CreationDate", nullable = false, length = 50)
     private Date creationDate;
@@ -22,13 +25,13 @@ public class Task {
     private Date updateDate;
 
     @Column(name="DateToComplete", nullable = true, length = 50)
-    private Date dateToComplete;
+    private String dateToComplete;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
-    public Task(String description,boolean status,Date creationDate,Date updateDate,Date dateToComplete) {
+    public Task(String description,String status,Date creationDate,Date updateDate,String dateToComplete) {
         this.description = description;
         this.status = status;
         this.creationDate = creationDate;
@@ -48,11 +51,11 @@ public class Task {
         this.description = description;
     }
 
-    public boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -80,11 +83,11 @@ public class Task {
         this.updateDate = updateDate;
     }
 
-    public Date getDateToComplete() {
+    public String getDateToComplete() {
         return dateToComplete;
     }
 
-    public void setDateToComplete(Date dateToComplete) {
+    public void setDateToComplete(String dateToComplete) {
         this.dateToComplete = dateToComplete;
     }
 

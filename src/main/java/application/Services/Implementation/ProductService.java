@@ -3,6 +3,7 @@ package application.Services.Implementation;
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
 import application.Domain.Models.Product.Request.AddProductRequest;
+import application.Domain.Models.Product.Request.CreateProductRequest;
 import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Mapper.Mapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductService implements IProductService {
@@ -28,19 +30,19 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product addProductToSupermarket(AddProductRequest productRequestAdd, Long id) {
+    public Product addProductToSupermarket(AddProductRequest productRequestAdd, UUID id) {
         productRequestAdd.setSupermarket(supermarketRepository.getById(id));
         Product product = mapper.AddProductRequestToProduct(productRequestAdd);
         return productRepository.save(product);
     }
 
     @Override
-    public void deleteProductFromSupermarket(Long id) {
+    public void deleteProductFromSupermarket(UUID id) {
         productRepository.deleteById(id);
     }
 
     @Override
-    public List<GetAllProductsResponse> getAllProductsFromSupermarket(Long id) {
+    public List<GetAllProductsResponse> getAllProductsFromSupermarket(UUID id) {
         Supermarket supermarket=supermarketRepository.getById(id);
         List<GetAllProductsResponse> list = new ArrayList<>();
         supermarket.getProducts().forEach(product -> {
@@ -50,16 +52,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public GetProductByIdResponse getProductById(Long id) {
+    public GetProductByIdResponse getProductById(UUID id) {
         Product product = productRepository.getById(id);
         return mapper.ProductToGetProductByIdResponse(product);
     }
 
     @Override
-    public Product updateProductPrice(UpdatePriceProductRequest productRequestUpdatePrice, Long id) {
+    public Product updateProductPrice(UpdatePriceProductRequest productRequestUpdatePrice, UUID id) {
         Product productUpdated=productRepository.getById(id);
         productUpdated.setPrice(productRequestUpdatePrice.getPrice());
         productUpdated.setUpdateDate(productRequestUpdatePrice.getUpdateDate());
         return productRepository.save(productUpdated);
     }
+
 }

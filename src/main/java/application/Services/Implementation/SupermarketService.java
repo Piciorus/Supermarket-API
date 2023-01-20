@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SupermarketService implements ISupermarketService {
@@ -32,7 +33,7 @@ public class SupermarketService implements ISupermarketService {
     }
 
     @Override
-    public void deleteSupermarketById(Long id) {
+    public void deleteSupermarketById(UUID id) {
         supermarketRepository.deleteById(id);
     }
 
@@ -46,13 +47,13 @@ public class SupermarketService implements ISupermarketService {
     }
 
     @Override
-    public GetSupermarketByIdResponse getSupermarketById(Long id) {
+    public GetSupermarketByIdResponse getSupermarketById(UUID id) {
         Supermarket supermarket = supermarketRepository.getById(id);
         return mapper.GetSupermarketByIdResponseToSupermarket(supermarket);
     }
 
     @Override
-    public Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, Long id) {
+    public Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, UUID id) {
         Supermarket supermarketUpdated=supermarketRepository.getById(id);
         supermarketUpdated.setName(updateSupermarketRequest.getName());
         supermarketUpdated.setAddress(updateSupermarketRequest.getAddress());

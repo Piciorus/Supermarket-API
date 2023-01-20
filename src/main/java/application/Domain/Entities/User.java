@@ -15,8 +15,9 @@ import java.util.UUID;
 public class User {
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(columnDefinition = "uniqueidentifier", name = "id")
-    private UUID id;
+    @Column(name = "id")
+    @Type(type = "uuid-char")
+    private UUID id = UUID.randomUUID();
     @Column(name="Username", nullable = false, length = 50)
     private String username;
     @Column(name="Password", nullable = false, length = 200)
@@ -137,6 +138,14 @@ public class User {
 
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
 }

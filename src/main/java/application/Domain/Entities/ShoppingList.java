@@ -1,46 +1,40 @@
 package application.Domain.Entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "ShoppingLists")
 public class ShoppingList {
     @Id
-    @Column(columnDefinition = "uniqueidentifier", name = "id")
-    private UUID id;
-
+    @Column(name = "id")
+    @Type(type = "uuid-char")
+    private UUID id = UUID.randomUUID();
+    @Column(name="Name", nullable = false, length = 50)
+    private String name;
     @Column(name="CreationDate", nullable = false, length = 50)
     private Date creationDate;
 
     @Column(name="UpdateDate", nullable = true, length = 50)
     private Date updateDate;
-
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
-    @OneToMany(mappedBy = "shoppingList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Product> products=new ArrayList<>(0);
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "shoppinglist_products", joinColumns = @JoinColumn(name = "shoppingList_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> products=new HashSet<>(0);
 
-    public ShoppingList(List<Product> productList, Date creationDate, Date updateDate) {
+    public ShoppingList(Set<Product> productList, Date creationDate, Date updateDate, String name) {
         this.products = productList;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
+        this.name = name;
     }
 
     public ShoppingList() {
 
-    }
-
-    public List<Product> getShoppingList() {
-        return products;
-    }
-
-    public void setShoppingList(List<Product> shoppingList) {
-        this.products = shoppingList;
     }
 
     public UUID getShoppingListId() {
@@ -73,5 +67,21 @@ public class ShoppingList {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

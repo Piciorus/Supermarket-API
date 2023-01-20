@@ -1,15 +1,21 @@
 package application.Domain.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "Products")
 public class Product {
     @Id
-    @Column(columnDefinition = "uniqueidentifier", name = "id")
-    private UUID id;
+    @Column(name = "id")
+    @Type(type = "uuid-char")
+    private UUID id = UUID.randomUUID();
     @Column(name="Name", nullable = false, length = 50)
     private String name;
     @Column(name="Brand", nullable = false, length = 50)
@@ -18,7 +24,6 @@ public class Product {
     private String category;
     @Column(name="ExpirationDate", nullable = false, length = 50)
     private String expirationDate;
-
     @Column(name="Price", nullable = false, length = 50)
     private int price;
     @Column(name="CreationDate", nullable = false, length = 50)
@@ -29,9 +34,10 @@ public class Product {
     @JoinColumn(name = "supermarket_id", nullable = true)
     private Supermarket supermarket;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "shoppingList_id", nullable = true)
-    private ShoppingList shoppingList;
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<ShoppingList> shoppingLists=new HashSet<>(0);
+
     public Product(String name, String brand, String category, String expirationDate, int price, Date creationDate, Date updateDate) {
         this.name = name;
         this.brand = brand;
@@ -117,4 +123,11 @@ public class Product {
         this.updateDate = updateDate;
     }
 
+    public Set<ShoppingList> getShoppingLists() {
+        return shoppingLists;
+    }
+
+    public void setShoppingLists(Set<ShoppingList> shoppingLists) {
+        this.shoppingLists = shoppingLists;
+    }
 }

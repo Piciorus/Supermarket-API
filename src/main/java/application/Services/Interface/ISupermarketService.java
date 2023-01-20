@@ -6,11 +6,13 @@ import application.Domain.Models.Supermarket.Request.UpdateSupermarketRequest;
 import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
 import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
 
+import java.util.UUID;
+
 public interface ISupermarketService {
     Supermarket  createSupermarket(AddSupermarketRequest supermarketRequest);
-    void deleteSupermarketById(Long id);
+    void deleteSupermarketById(UUID id);
     Iterable<GetAllSupermarketResponse> getAllSupermarkets();
-    GetSupermarketByIdResponse getSupermarketById(Long id);
-    Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, Long id);
+    GetSupermarketByIdResponse getSupermarketById(UUID id);
+    Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, UUID id);
 
 }

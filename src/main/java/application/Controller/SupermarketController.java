@@ -7,15 +7,17 @@ import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse
 import application.Services.Interface.ISupermarketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import application.Config.ResponseEntity;
+import java.util.UUID;
 
 @CrossOrigin("*")
 @RestController()
 @Component
 public class SupermarketController {
-    private ISupermarketService supermarketService;
+    private final ISupermarketService supermarketService;
 
     @Autowired
     public SupermarketController(ISupermarketService supermarketService) {
@@ -24,9 +26,9 @@ public class SupermarketController {
 
     @PostMapping(path = "/createSupermarket")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> addSupermarket(@RequestBody final AddSupermarketRequest supermarketRequestCreate) {
-        supermarketService.createSupermarket(supermarketRequestCreate);
-        return ResponseEntity.ok("Supermarket created");
+    public ResponseEntity<String> addSupermarket(@RequestBody final AddSupermarketRequest addSupermarketRequest) {
+        supermarketService.createSupermarket(addSupermarketRequest);
+        return new ResponseEntity<>("dada", 200, "Supermarket created");
     }
 
     @GetMapping(path = "/getAllSupermarkets")
@@ -35,19 +37,19 @@ public class SupermarketController {
     }
 
     @GetMapping(path = "/getSupermarketById/{id}")
-    public ResponseEntity<GetSupermarketByIdResponse> getSupermarketById(@PathVariable("id") Long supermarketId) {
-        return ResponseEntity.ok(supermarketService.getSupermarketById(supermarketId));
+    public ResponseEntity<GetSupermarketByIdResponse> getSupermarketById(@PathVariable("id") UUID supermarketId) {
+        return new ResponseEntity<>(supermarketService.getSupermarketById(supermarketId), 200, "Get supermarket by id");
     }
 
     @DeleteMapping(path = "/deleteSupermarketById/{id}")
-    public ResponseEntity<String> deleteSupermarketById(@PathVariable("id") Long supermarketId) {
+    public ResponseEntity<String> deleteSupermarketById(@PathVariable("id") UUID supermarketId) {
         supermarketService.deleteSupermarketById(supermarketId);
-        return ResponseEntity.ok("Supermarket deleted");
+        return new ResponseEntity<>("", 200, "Supermarket deleted");
     }
 
     @PutMapping(path = "/updateSupermarket/{id}")
-    public ResponseEntity<String> updateSupermarket(@RequestBody final UpdateSupermarketRequest updateSupermarketRequest, @PathVariable("id") Long supermarketId) {
+    public ResponseEntity<String> updateSupermarket(@RequestBody final UpdateSupermarketRequest updateSupermarketRequest, @PathVariable("id") UUID supermarketId) {
         supermarketService.updateSupermarket(updateSupermarketRequest, supermarketId);
-        return ResponseEntity.ok("Supermarket updated");
+        return new ResponseEntity<>("", 200, "Supermarket updated");
     }
 }

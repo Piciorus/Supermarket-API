@@ -16,6 +16,7 @@ import application.Domain.Mapper.Mapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class UserService implements IUserService {
     private UserRepository userRepository;
@@ -35,7 +36,7 @@ public class UserService implements IUserService {
 
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(UUID id) {
         userRepository.deleteById(id);
     }
 
@@ -49,7 +50,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public GetByIdUserResponse getUserById(Long id) {
+    public GetByIdUserResponse getUserById(UUID id) {
         User user = userRepository.getById(id);
         return mapper.UserToGetByIdUserResponse(user);
     }
@@ -80,8 +81,5 @@ public class UserService implements IUserService {
 
         return user1;
     }
-
-
-
 
 }

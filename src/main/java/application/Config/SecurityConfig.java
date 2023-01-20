@@ -1,10 +1,8 @@
 package application.Config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,14 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Configuration
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ROLE = "ADMIN";
-    private static final String BASIC_USER_ROLE = "User";
+    private static final String BASIC_USER_ROLE = "USER";
+    private static final String CLIENT_ROLE = "CLIENT";
+
+    private static final String EMPLOYEE_ROLE = "EMPLOYEE";
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -37,24 +38,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
         .authorizeRequests()
-//              -user-
+        //                          -user-
         .antMatchers(HttpMethod.POST, "/register").anonymous()
         .antMatchers(HttpMethod.POST, "/login").anonymous()
-//              -admin-
-        .antMatchers(HttpMethod.GET, "/getAllUsers").hasAnyRole(ADMIN_ROLE, BASIC_USER_ROLE)
-        .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").anonymous()
-        .antMatchers(HttpMethod.POST, "/createSupermarket").anonymous()
-        .antMatchers(HttpMethod.GET, "/getAllSupermarkets").anonymous()
-        .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").anonymous()
-        .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").anonymous()
-        .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").anonymous()
-        .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").anonymous()
-        .antMatchers(HttpMethod.DELETE,"/deleteProductFromSupermarket/{id}").anonymous()
-        .antMatchers(HttpMethod.POST,"/getAllProductsFromSupermarket/{id}").anonymous()
-        .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").anonymous()
-        .antMatchers(HttpMethod.GET,"/getProductById/{id}").anonymous()
-        .antMatchers(HttpMethod.GET,"/createEmployee").anonymous()
+        .antMatchers(HttpMethod.GET, "/getAllUsers").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasAnyRole(ADMIN_ROLE, BASIC_USER_ROLE)
+        .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").hasAnyRole(ADMIN_ROLE)
+        //                         -supermarket-
+        .antMatchers(HttpMethod.POST, "/createSupermarket").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+        //                          -product-
+        .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.DELETE,"/deleteProductFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.POST,"/getAllProductsFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE,BASIC_USER_ROLE)
+        .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").hasAnyRole(ADMIN_ROLE)
+        .antMatchers(HttpMethod.GET,"/getProductById/{id}").hasAnyRole(ADMIN_ROLE)
+        //                          -shoppinglist-
+        .antMatchers(HttpMethod.POST,"/addProductToShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        .antMatchers(HttpMethod.POST,"/createShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        .antMatchers(HttpMethod.GET,"/getShoppingListById/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        .antMatchers(HttpMethod.DELETE,"/deleteShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        .antMatchers(HttpMethod.DELETE,"/deleteProductFromShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+        //                          -task-
+        .antMatchers(HttpMethod.GET,"/getAllTasks").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.GET,"/getAllTasksByEmployeeId/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.DELETE,"/deleteTaskById/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.PUT,"/updateTask/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.POST,"/addTaskToEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.PUT,"/updateTaskStatus/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+        .antMatchers(HttpMethod.DELETE,"/removeTaskFromEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
         .anyRequest()
         .authenticated()
         .and()
@@ -68,6 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }
+
+
 
 
 

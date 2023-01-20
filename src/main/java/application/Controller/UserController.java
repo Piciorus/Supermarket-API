@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @CrossOrigin("*")
 @RestController()
 @Component
 public class UserController {
 
-    private IUserService accountService;
+    private final IUserService accountService;
     public UserController(IUserService accountService) {
         this.accountService = accountService;
     }
@@ -33,19 +35,16 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> loginUser(@RequestBody final LoginUserRequest userLogin) throws Exception {
-        accountService.login(userLogin);
+    public ResponseEntity<String> loginUser(@RequestBody final LoginUserRequest loginUserRequest) throws Exception {
+        accountService.login(loginUserRequest);
         return ResponseEntity.ok("You are logged in ");
     }
-
     @GetMapping(path = "/getUserById/{id}")
-    public ResponseEntity<GetByIdUserResponse> getAccountById(@PathVariable("id") Long accountId) {
+    public ResponseEntity<GetByIdUserResponse> getAccountById(@PathVariable("id") UUID accountId) {
         return ResponseEntity.ok(accountService.getUserById(accountId));
     }
     @DeleteMapping(path = "/deleteUserById/{id}")
-    public void deleteAccountById(@PathVariable("id") Long accountId) {
+    public void deleteAccountById(@PathVariable("id") UUID accountId) {
         accountService.deleteUserById(accountId);
     }
-
-
 }
