@@ -1,51 +1,38 @@
 package application.Domain.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Products")
-public class Product {
-    @Id
-    @Column(name = "id")
-    @Type(type = "uuid-char")
-    private UUID id = UUID.randomUUID();
-    @Column(name="Name", nullable = false, length = 50)
+public class Product extends BaseEntity {
+    @Column(name = "Name", nullable = false, length = 50)
     private String name;
-    @Column(name="Brand", nullable = false, length = 50)
+    @Column(name = "Brand", nullable = false, length = 50)
     private String brand;
-    @Column(name="Category", nullable = false, length = 50)
+    @Column(name = "Category", nullable = false, length = 50)
     private String category;
-    @Column(name="ExpirationDate", nullable = false, length = 50)
+    @Column(name = "ExpirationDate", nullable = false, length = 50)
     private String expirationDate;
-    @Column(name="Price", nullable = false, length = 50)
+    @Column(name = "Price", nullable = false, length = 50)
     private int price;
-    @Column(name="CreationDate", nullable = false, length = 50)
-    private Date creationDate;
-    @Column(name="UpdateDate", nullable = true, length = 50)
-    private Date updateDate;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "supermarket_id", nullable = true)
     private Supermarket supermarket;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<ShoppingList> shoppingLists=new HashSet<>(0);
+    private Set<ShoppingList> shoppingLists = new HashSet<>(0);
 
-    public Product(String name, String brand, String category, String expirationDate, int price, Date creationDate, Date updateDate) {
+    public Product(String name, String brand, String category, String expirationDate, int price) {
         this.name = name;
         this.brand = brand;
         this.category = category;
         this.expirationDate = expirationDate;
         this.price = price;
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
     }
 
     public Product() {
@@ -59,6 +46,7 @@ public class Product {
     public void setSupermarket(Supermarket supermarket) {
         this.supermarket = supermarket;
     }
+
     public String getName() {
         return name;
     }
@@ -91,36 +79,12 @@ public class Product {
         this.expirationDate = expirationDate;
     }
 
-    public UUID getProductId() {
-        return id;
-    }
-
-    public void setProductId(UUID ProductId) {
-        this.id = ProductId;
-    }
-
     public int getPrice() {
         return price;
     }
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public Set<ShoppingList> getShoppingLists() {

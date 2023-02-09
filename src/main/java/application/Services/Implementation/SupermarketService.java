@@ -1,25 +1,24 @@
 package application.Services.Implementation;
 
 import application.Domain.Entities.Supermarket;
+import application.Domain.Mapper.Mapper;
 import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
 import application.Domain.Models.Supermarket.Request.UpdateSupermarketRequest;
 import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
-import application.Domain.Mapper.Mapper;
 import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
 import application.Repository.SupermarketRepository;
 import application.Services.Interface.ISupermarketService;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class SupermarketService implements ISupermarketService {
-    private SupermarketRepository supermarketRepository;
+    private final SupermarketRepository supermarketRepository;
 
-    private Mapper mapper;
+    private final Mapper mapper;
 
     public SupermarketService(SupermarketRepository supermarketRepository, Mapper mapper) {
         this.supermarketRepository = supermarketRepository;
@@ -54,7 +53,7 @@ public class SupermarketService implements ISupermarketService {
 
     @Override
     public Supermarket updateSupermarket(UpdateSupermarketRequest updateSupermarketRequest, UUID id) {
-        Supermarket supermarketUpdated=supermarketRepository.getById(id);
+        Supermarket supermarketUpdated = supermarketRepository.getById(id);
         supermarketUpdated.setName(updateSupermarketRequest.getName());
         supermarketUpdated.setAddress(updateSupermarketRequest.getAddress());
         supermarketUpdated.setUpdateDate(updateSupermarketRequest.getUpdateDate());

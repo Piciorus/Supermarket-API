@@ -1,7 +1,7 @@
 package application.Services.Implementation;
 
-import application.Domain.Entities.Role;
 import application.Domain.Entities.User;
+import application.Domain.Mapper.Mapper;
 import application.Domain.Models.User.Request.LoginUserRequest;
 import application.Domain.Models.User.Request.RegisterUserRequest;
 import application.Domain.Models.User.Response.GetAllUsersResponse;
@@ -10,8 +10,6 @@ import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
 import application.Services.Interface.IUserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import application.Domain.Mapper.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +17,18 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UserService implements IUserService {
-    private UserRepository userRepository;
-    private Mapper mapper;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private RoleRepository roleRepository;
-    public UserService(UserRepository userRepository, Mapper mapper,RoleRepository roleRepository,BCryptPasswordEncoder bCryptPasswordEncoder) {
+    private final UserRepository userRepository;
+    private final Mapper mapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
+
+    public UserService(UserRepository userRepository, Mapper mapper, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleRepository = roleRepository;
     }
+
     @Override
     public User register(RegisterUserRequest userRequestRegister) {
         return userRepository.save(mapper.RegisterUserRequestToUser(userRequestRegister));

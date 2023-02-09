@@ -1,7 +1,5 @@
 package application.Domain.Models.Task.Request;
 
-import application.Domain.Entities.User;
-
 import java.util.Date;
 
 public class AddTaskRequest {
@@ -11,7 +9,7 @@ public class AddTaskRequest {
     private String status;
     private String dateToComplete;
 
-    public AddTaskRequest(String description,String dateToComplete) {
+    public AddTaskRequest(String description, String dateToComplete) {
         this.description = description;
         this.status = "false";
         this.dateToComplete = dateToComplete;

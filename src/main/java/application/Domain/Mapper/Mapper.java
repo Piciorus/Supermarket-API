@@ -2,16 +2,13 @@ package application.Domain.Mapper;
 
 import application.Domain.Entities.*;
 import application.Domain.Models.Product.Request.AddProductRequest;
-import application.Domain.Models.Product.Request.CreateProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Models.Product.Response.GetProductByIdResponse;
 import application.Domain.Models.ShoppingList.Response.GetShoppingListByIdResponse;
 import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
 import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;
 import application.Domain.Models.Supermarket.Response.GetSupermarketByIdResponse;
-import application.Domain.Models.Task.Request.AddTaskRequest;
 import application.Domain.Models.Task.Request.AddTaskToEmployeeRequest;
-import application.Domain.Models.Task.Request.UpdateTaskStatusRequest;
 import application.Domain.Models.Task.Response.GetAllTasksResponse;
 import application.Domain.Models.Task.Response.GetTaskByIdResponse;
 import application.Domain.Models.User.Request.RegisterUserRequest;
@@ -20,15 +17,12 @@ import application.Domain.Models.User.Response.GetByIdUserResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class Mapper {
 
-    public User RegisterUserRequestToUser(RegisterUserRequest userRequest){
+    public User RegisterUserRequestToUser(RegisterUserRequest userRequest) {
         User user = new User();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        user.setId(UUID.randomUUID());
         user.setUsername(userRequest.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
         user.setName(userRequest.getName());
@@ -39,7 +33,7 @@ public class Mapper {
         return user;
     }
 
-    public GetAllUsersResponse UserToGetAllUsersResponse(User user){
+    public GetAllUsersResponse UserToGetAllUsersResponse(User user) {
         GetAllUsersResponse user1 = new GetAllUsersResponse();
         user1.setName(user.getName());
         user1.setSurname(user.getSurname());
@@ -47,37 +41,36 @@ public class Mapper {
         return user1;
     }
 
-    public GetByIdUserResponse UserToGetByIdUserResponse(User user){
+    public GetByIdUserResponse UserToGetByIdUserResponse(User user) {
         GetByIdUserResponse user1 = new GetByIdUserResponse();
         user1.setName(user.getName());
         user1.setSurname(user.getSurname());
         return user1;
     }
 
-    public Supermarket CreateSupermarketRequestToSupermarket(AddSupermarketRequest supermarketRequest){
+    public Supermarket CreateSupermarketRequestToSupermarket(AddSupermarketRequest supermarketRequest) {
         Supermarket supermarket = new Supermarket();
-//        supermarket.setId(UUID.randomUUID());
         supermarket.setName(supermarketRequest.getName());
         supermarket.setAddress(supermarketRequest.getAddress());
         supermarket.setCreationDate(supermarketRequest.getCreationDate());
         return supermarket;
     }
 
-    public GetSupermarketByIdResponse GetSupermarketByIdResponseToSupermarket(Supermarket supermarket){
+    public GetSupermarketByIdResponse GetSupermarketByIdResponseToSupermarket(Supermarket supermarket) {
         GetSupermarketByIdResponse getSupermarketByIdResponse = new GetSupermarketByIdResponse();
         getSupermarketByIdResponse.setName(supermarket.getName());
         getSupermarketByIdResponse.setAddress(supermarket.getAddress());
         return getSupermarketByIdResponse;
     }
 
-    public GetAllSupermarketResponse SupermarketToGetAllSupermarketResponse(Supermarket supermarket){
+    public GetAllSupermarketResponse SupermarketToGetAllSupermarketResponse(Supermarket supermarket) {
         GetAllSupermarketResponse supermarketResponse = new GetAllSupermarketResponse();
         supermarketResponse.setName(supermarket.getName());
         supermarketResponse.setAddress(supermarket.getAddress());
         return supermarketResponse;
     }
 
-    public GetAllProductsResponse ProductToProductResponse(Product product){
+    public GetAllProductsResponse ProductToProductResponse(Product product) {
         GetAllProductsResponse productResponse = new GetAllProductsResponse();
         productResponse.setName(product.getName());
         productResponse.setCategory(product.getCategory());
@@ -85,16 +78,16 @@ public class Mapper {
         return productResponse;
     }
 
-    public GetProductByIdResponse ProductToGetProductByIdResponse(Product product){
+    public GetProductByIdResponse ProductToGetProductByIdResponse(Product product) {
         GetProductByIdResponse productResponse = new GetProductByIdResponse();
         productResponse.setName(product.getName());
         productResponse.setCategory(product.getCategory());
         productResponse.setPrice(product.getPrice());
         return productResponse;
     }
-    public Product AddProductRequestToProduct(AddProductRequest productRequest){
+
+    public Product AddProductRequestToProduct(AddProductRequest productRequest) {
         Product product = new Product();
-//        product.setProductId(UUID.randomUUID());
         product.setName(productRequest.getName());
         product.setBrand(productRequest.getBrand());
         product.setCategory(productRequest.getCategory());
@@ -105,33 +98,22 @@ public class Mapper {
         return product;
     }
 
-    public Task AddTaskRequestToTask(AddTaskRequest taskRequest){
-        Task task = new Task();
-//        task.setTaskId(UUID.randomUUID());
-        task.setStatus(taskRequest.getStatus());
-        task.setDescription(taskRequest.getDescription());
-        task.setCreationDate(taskRequest.getCreationDate());
-        task.setDateToComplete(taskRequest.getDateToComplete());
-        return task;
-    }
-
-    public GetAllTasksResponse TaskToGetAllTasksResponse(Task task){
+    public GetAllTasksResponse TaskToGetAllTasksResponse(Task task) {
         GetAllTasksResponse taskResponse = new GetAllTasksResponse();
         taskResponse.setDescription(task.getDescription());
         taskResponse.setDateToComplete(task.getDateToComplete());
         return taskResponse;
     }
 
-    public GetTaskByIdResponse TaskToGetTaskByIdResponse(Task task){
+    public GetTaskByIdResponse TaskToGetTaskByIdResponse(Task task) {
         GetTaskByIdResponse taskResponse = new GetTaskByIdResponse();
         taskResponse.setDescription(task.getDescription());
         taskResponse.setDateToComplete(task.getDateToComplete());
         return taskResponse;
     }
 
-    public Task AddTaskToEmployeeRequestToTask(AddTaskToEmployeeRequest taskRequest){
+    public Task AddTaskToEmployeeRequestToTask(AddTaskToEmployeeRequest taskRequest) {
         Task task = new Task();
-//        task.setTaskId(UUID.randomUUID());
         task.setDescription(taskRequest.getDescription());
         task.setCreationDate(taskRequest.getCreationDate());
         task.setDateToComplete(taskRequest.getDateToComplete());
@@ -140,19 +122,7 @@ public class Mapper {
         return task;
     }
 
-    public Product CreateProductRequestToProduct(CreateProductRequest createProductRequest) {
-        Product product = new Product();
-//        product.setProductId(UUID.randomUUID());
-        product.setName(createProductRequest.getName());
-        product.setBrand(createProductRequest.getBrand());
-        product.setCategory(createProductRequest.getCategory());
-        product.setPrice(createProductRequest.getPrice());
-        product.setExpirationDate(createProductRequest.getExpirationDate());
-        product.setCreationDate(createProductRequest.getCreationDate());
-        return product;
-    }
-
-    public GetShoppingListByIdResponse GetShoppingListByIdResponseToShoppingList(ShoppingList shoppingList){
+    public GetShoppingListByIdResponse GetShoppingListByIdResponseToShoppingList(ShoppingList shoppingList) {
         GetShoppingListByIdResponse getShoppingListByIdResponse = new GetShoppingListByIdResponse();
         getShoppingListByIdResponse.setName(shoppingList.getName());
         getShoppingListByIdResponse.setProducts(shoppingList.getProducts());

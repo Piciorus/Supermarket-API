@@ -1,7 +1,5 @@
 package application.Domain.Models.Task.Response;
 
-import java.util.Date;
-
 public class GetAllTasksResponse {
     private String description;
     private boolean status;

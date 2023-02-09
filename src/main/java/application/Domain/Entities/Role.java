@@ -1,7 +1,6 @@
 package application.Domain.Entities;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Roles")
@@ -11,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="Role", nullable = false, length = 50)
+    @Column(name = "Role", nullable = false, length = 50)
     private String role;
 
     public Role() {
@@ -21,11 +20,11 @@ public class Role {
         this.role = role;
     }
 
-    public long  getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(long  id) {
+    public void setId(long id) {
         this.id = id;
     }
 

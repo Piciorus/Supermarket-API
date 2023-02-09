@@ -3,8 +3,8 @@ package application.Config;
 import application.Domain.Mapper.Mapper;
 import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
-import application.Services.Implementation.UserService;
 import application.Services.Implementation.Security.customUserDetailsService;
+import application.Services.Implementation.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,7 @@ public class AppConfig {
                                    final Mapper mapper,
                                    final RoleRepository roleRepository,
                                    final BCryptPasswordEncoder passwordEncoder) {
-        return new UserService(userRepository,mapper, roleRepository, passwordEncoder);
+        return new UserService(userRepository, mapper, roleRepository, passwordEncoder);
     }
 
     @Bean("customUserDetailsService")

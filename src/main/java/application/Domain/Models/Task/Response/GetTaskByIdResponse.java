@@ -1,7 +1,5 @@
 package application.Domain.Models.Task.Response;
 
-import java.util.Date;
-
 public class GetTaskByIdResponse {
     private String description;
     private boolean status;

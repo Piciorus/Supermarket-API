@@ -1,60 +1,50 @@
 package application.Domain.Entities;
 
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Users")
-public class User {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id")
-    @Type(type = "uuid-char")
-    private UUID id = UUID.randomUUID();
-    @Column(name="Username", nullable = false, length = 50)
+public class User extends BaseEntity {
+    @Column(name = "Username", nullable = false, length = 50)
     private String username;
-    @Column(name="Password", nullable = false, length = 200)
+    @Column(name = "Password", nullable = false, length = 200)
     private String password;
 
-    @Column(name="Name", nullable = false, length = 50)
+    @Column(name = "Name", nullable = false, length = 50)
     private String name;
 
-    @Column(name="Surname", nullable = false, length = 50)
+    @Column(name = "Surname", nullable = false, length = 50)
     private String surname;
 
-    @Column(name="Phone", nullable = false, length = 50)
+    @Column(name = "Phone", nullable = false, length = 50)
     private String phone;
 
-    @Column(name="CNP", nullable = false, length = 50)
+    @Column(name = "CNP", nullable = false, length = 50)
     private String cnp;
 
-    @Column(name="CreationDate", nullable = true, length = 50)
-    private Date creationDate;
-
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private ShoppingList shoppingList;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Task> tasks;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>(0);
 
-    public User(String username, String password, String name, String surname, String phone, String cnp, Date creationDate) {
+    public User(String username, String password, String name, String surname, String phone, String cnp) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.cnp = cnp;
-        this.creationDate = creationDate;
     }
 
     public User() {
@@ -75,13 +65,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UUID  getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -114,14 +97,6 @@ public class User {
 
     public void setCnp(String cnp) {
         this.cnp = cnp;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public List<Role> getRoles() {

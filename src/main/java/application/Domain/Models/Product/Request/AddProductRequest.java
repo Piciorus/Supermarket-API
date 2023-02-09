@@ -1,10 +1,6 @@
 package application.Domain.Models.Product.Request;
 
 import application.Domain.Entities.Supermarket;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
 
@@ -17,7 +13,7 @@ public class AddProductRequest {
     private Supermarket supermarket;
     private Date creationDate;
 
-    public AddProductRequest(String name, String brand, String category, String expirationDate, int price, Supermarket supermarket ) {
+    public AddProductRequest(String name, String brand, String category, String expirationDate, int price, Supermarket supermarket) {
         this.name = name;
         this.brand = brand;
         this.category = category;

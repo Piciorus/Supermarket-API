@@ -25,8 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public SecurityConfig(@Qualifier("customUserDetailsService")
-                          final UserDetailsService userDetailsService,
+    public SecurityConfig(@Qualifier("customUserDetailsService") final UserDetailsService userDetailsService,
                           final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -37,47 +36,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
-        .authorizeRequests()
-        //                          -user-
-        .antMatchers(HttpMethod.POST, "/register").anonymous()
-        .antMatchers(HttpMethod.POST, "/login").anonymous()
-        .antMatchers(HttpMethod.GET, "/getAllUsers").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasAnyRole(ADMIN_ROLE, BASIC_USER_ROLE)
-        .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").hasAnyRole(ADMIN_ROLE)
-        //                         -supermarket-
-        .antMatchers(HttpMethod.POST, "/createSupermarket").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
-        //                          -product-
-        .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.DELETE,"/deleteProductFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.POST,"/getAllProductsFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE,BASIC_USER_ROLE)
-        .antMatchers(HttpMethod.PUT,"/updateProductPrice/{id}").hasAnyRole(ADMIN_ROLE)
-        .antMatchers(HttpMethod.GET,"/getProductById/{id}").hasAnyRole(ADMIN_ROLE)
-        //                          -shoppinglist-
-        .antMatchers(HttpMethod.POST,"/addProductToShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        .antMatchers(HttpMethod.POST,"/createShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        .antMatchers(HttpMethod.GET,"/getShoppingListById/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        .antMatchers(HttpMethod.DELETE,"/deleteShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        .antMatchers(HttpMethod.DELETE,"/deleteProductFromShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
-        //                          -task-
-        .antMatchers(HttpMethod.GET,"/getAllTasks").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.GET,"/getAllTasksByEmployeeId/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.DELETE,"/deleteTaskById/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.PUT,"/updateTask/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.POST,"/addTaskToEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.PUT,"/updateTaskStatus/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .antMatchers(HttpMethod.DELETE,"/removeTaskFromEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
-        .anyRequest()
-        .authenticated()
-        .and()
-        .cors()
-        .and()
-        .formLogin().disable()
-        .httpBasic();
+                .authorizeRequests()
+                //                          -user-
+                .antMatchers(HttpMethod.POST, "/register").anonymous()
+                .antMatchers(HttpMethod.POST, "/login").anonymous()
+                .antMatchers(HttpMethod.GET, "/getAllUsers").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.GET, "/getUserById/{id}").hasAnyRole(ADMIN_ROLE, BASIC_USER_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteUserById/{id}").hasAnyRole(ADMIN_ROLE)
+                //                         -supermarket-
+                .antMatchers(HttpMethod.POST, "/createSupermarket").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.GET, "/getAllSupermarkets").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                .antMatchers(HttpMethod.GET, "/getSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteSupermarketById/{id}").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.PUT, "/updateSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+                //                          -product-
+                .antMatchers(HttpMethod.POST, "/addProductToSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteProductFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.POST, "/getAllProductsFromSupermarket/{id}").hasAnyRole(ADMIN_ROLE, BASIC_USER_ROLE)
+                .antMatchers(HttpMethod.PUT, "/updateProductPrice/{id}").hasAnyRole(ADMIN_ROLE)
+                .antMatchers(HttpMethod.GET, "/getProductById/{id}").hasAnyRole(ADMIN_ROLE)
+                //                          -shoppinglist-
+                .antMatchers(HttpMethod.POST, "/addProductToShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                .antMatchers(HttpMethod.POST, "/createShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                .antMatchers(HttpMethod.GET, "/getShoppingListById/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteShoppingList/{id}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteProductFromShoppingList/{id}/{id1}").hasAnyRole(ADMIN_ROLE, CLIENT_ROLE)
+                //                          -task-
+                .antMatchers(HttpMethod.GET, "/getAllTasks").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.GET, "/getAllTasksByEmployeeId/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/deleteTaskById/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.PUT, "/updateTask/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.POST, "/addTaskToEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.PUT, "/updateTaskStatus/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .antMatchers(HttpMethod.DELETE, "/removeTaskFromEmployee/{id}").hasAnyRole(ADMIN_ROLE, EMPLOYEE_ROLE)
+                .anyRequest()
+                .authenticated()
+                .and()
+                .cors()
+                .and()
+                .formLogin().disable()
+                .httpBasic();
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");

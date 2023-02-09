@@ -6,6 +6,7 @@ public class UpdatePriceProductRequest {
     private int price;
 
     private Date updateDate;
+
     public UpdatePriceProductRequest(int price) {
         this.price = price;
         this.updateDate = new Date();

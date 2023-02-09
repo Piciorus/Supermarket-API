@@ -2,11 +2,10 @@ package application.Services.Implementation;
 
 import application.Domain.Entities.Product;
 import application.Domain.Entities.Supermarket;
+import application.Domain.Mapper.Mapper;
 import application.Domain.Models.Product.Request.AddProductRequest;
-import application.Domain.Models.Product.Request.CreateProductRequest;
 import application.Domain.Models.Product.Request.UpdatePriceProductRequest;
 import application.Domain.Models.Product.Response.GetAllProductsResponse;
-import application.Domain.Mapper.Mapper;
 import application.Domain.Models.Product.Response.GetProductByIdResponse;
 import application.Repository.ProductRepository;
 import application.Repository.SupermarketRepository;
@@ -19,9 +18,9 @@ import java.util.UUID;
 
 @Service
 public class ProductService implements IProductService {
-    private Mapper mapper;
-    private ProductRepository productRepository;
-    private SupermarketRepository supermarketRepository;
+    private final Mapper mapper;
+    private final ProductRepository productRepository;
+    private final SupermarketRepository supermarketRepository;
 
     public ProductService(Mapper mapper, ProductRepository productRepository, SupermarketRepository supermarketRepository) {
         this.mapper = mapper;
@@ -30,9 +29,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product addProductToSupermarket(AddProductRequest productRequestAdd, UUID id) {
-        productRequestAdd.setSupermarket(supermarketRepository.getById(id));
-        Product product = mapper.AddProductRequestToProduct(productRequestAdd);
+    public Product addProductToSupermarket(AddProductRequest addProductRequest, UUID id) {
+        addProductRequest.setSupermarket(supermarketRepository.getById(id));
+        Product product = mapper.AddProductRequestToProduct(addProductRequest);
         return productRepository.save(product);
     }
 
@@ -43,7 +42,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<GetAllProductsResponse> getAllProductsFromSupermarket(UUID id) {
-        Supermarket supermarket=supermarketRepository.getById(id);
+        Supermarket supermarket = supermarketRepository.getById(id);
         List<GetAllProductsResponse> list = new ArrayList<>();
         supermarket.getProducts().forEach(product -> {
             list.add(mapper.ProductToProductResponse(product));
@@ -58,10 +57,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProductPrice(UpdatePriceProductRequest productRequestUpdatePrice, UUID id) {
-        Product productUpdated=productRepository.getById(id);
-        productUpdated.setPrice(productRequestUpdatePrice.getPrice());
-        productUpdated.setUpdateDate(productRequestUpdatePrice.getUpdateDate());
+    public Product updateProductPrice(UpdatePriceProductRequest updatePriceProductRequest, UUID id) {
+        Product productUpdated = productRepository.getById(id);
+        productUpdated.setPrice(updatePriceProductRequest.getPrice());
+        productUpdated.setUpdateDate(updatePriceProductRequest.getUpdateDate());
         return productRepository.save(productUpdated);
     }
 

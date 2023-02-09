@@ -3,11 +3,11 @@ package application.Domain.Models.Product.Request;
 import java.util.Date;
 
 public class CreateProductRequest {
-    private String name;
-    private String brand;
-    private String category;
+    private final String name;
+    private final String brand;
+    private final String category;
     private String expirationDate;
-    private int price;
+    private final int price;
 
     private Date creationDate;
 

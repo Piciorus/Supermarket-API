@@ -1,9 +1,7 @@
 package application.Domain.Models.ShoppingList.Response;
 
 import application.Domain.Entities.Product;
-import application.Domain.Models.Product.Response.GetAllProductsResponse;
 
-import java.util.List;
 import java.util.Set;
 
 public class GetShoppingListByIdResponse {
