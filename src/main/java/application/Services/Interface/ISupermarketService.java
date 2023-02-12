@@ -1,6 +1,7 @@
 package application.Services.Interface;
 
 import application.Domain.Entities.Supermarket;
+import application.Domain.Models.Product.Response.GetAllProductsResponse;
 import application.Domain.Models.Supermarket.Request.AddSupermarketRequest;
 import application.Domain.Models.Supermarket.Request.UpdateSupermarketRequest;
 import application.Domain.Models.Supermarket.Response.GetAllSupermarketResponse;

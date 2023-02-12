@@ -7,7 +7,7 @@ import application.Domain.Models.User.Response.GetAllUsersResponse;
 import application.Domain.Models.User.Response.GetByIdUserResponse;
 import application.Services.Interface.IUserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import application.Config.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class UserController {
     @Async
     public ResponseEntity<String> addAccount(@RequestBody final RegisterUserRequest registerUserRequest) {
         accountService.register(registerUserRequest);
-        return ResponseEntity.ok("User created ");
+        return new ResponseEntity<>("", 200, "User createdd!");
     }
 
     @GetMapping(path = "/getAllUsers")
@@ -42,13 +42,13 @@ public class UserController {
     @PostMapping(path = "/login")
     @Async
     public ResponseEntity<User> loginUser(@RequestBody final LoginUserRequest loginUserRequest) throws Exception {
-        return ResponseEntity.ok(accountService.login(loginUserRequest));
+        return new ResponseEntity<>(accountService.login(loginUserRequest), 200, "You are logged in!");
     }
 
     @GetMapping(path = "/getUserById/{id}")
     @Async
     public ResponseEntity<GetByIdUserResponse> getAccountById(@PathVariable("id") UUID accountId) {
-        return ResponseEntity.ok(accountService.getUserById(accountId));
+        return new ResponseEntity<>(accountService.getUserById(accountId), 200, "User by id!");
     }
 
     @DeleteMapping(path = "/deleteUserById/{id}")

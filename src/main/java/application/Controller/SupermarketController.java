@@ -30,13 +30,13 @@ public class SupermarketController {
     @Async
     public ResponseEntity<String> addSupermarket(@RequestBody final AddSupermarketRequest addSupermarketRequest) {
         supermarketService.createSupermarket(addSupermarketRequest);
-        return new ResponseEntity<>("dada", 200, "Supermarket created");
+        return new ResponseEntity<>("", 200, "Supermarket created");
     }
 
     @GetMapping(path = "/getAllSupermarkets")
     @Async
-    public Iterable<GetAllSupermarketResponse> getAllSupermarkets() {
-        return supermarketService.getAllSupermarkets();
+    public ResponseEntity<Iterable<GetAllSupermarketResponse>> getAllSupermarkets() {
+        return new ResponseEntity<>(supermarketService.getAllSupermarkets(), 200, "Get all supermarkets");
     }
 
     @GetMapping(path = "/getSupermarketById/{id}")

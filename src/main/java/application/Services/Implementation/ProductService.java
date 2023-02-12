@@ -51,6 +51,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<GetAllProductsResponse> getAllProducts(){
+        List<GetAllProductsResponse> list = new ArrayList<>();
+        productRepository.findAll().forEach(product -> {
+            list.add(mapper.ProductToProductResponse(product));
+        });
+        return list;
+
+    }
+
+    @Override
     public GetProductByIdResponse getProductById(UUID id) {
         Product product = productRepository.getById(id);
         return mapper.ProductToGetProductByIdResponse(product);

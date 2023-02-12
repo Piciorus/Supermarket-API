@@ -6,6 +6,7 @@ import application.Domain.Models.User.Request.LoginUserRequest;
 import application.Domain.Models.User.Request.RegisterUserRequest;
 import application.Domain.Models.User.Response.GetAllUsersResponse;
 import application.Domain.Models.User.Response.GetByIdUserResponse;
+import application.Exception.CustomException;
 import application.Repository.RoleRepository;
 import application.Repository.UserRepository;
 import application.Services.Interface.IUserService;
@@ -56,27 +57,27 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User login(LoginUserRequest userRequestLogin) throws Exception {
+    public User login(LoginUserRequest userRequestLogin) throws CustomException {
         if (Objects.isNull(userRequestLogin)) {
-            throw new Exception("Body null !");
+            throw new CustomException(401,"Body null !");
         }
 
         if (Objects.isNull(userRequestLogin.getUsername())) {
-            throw new Exception("Username cannot be null ! ");
+            throw new CustomException(400,"Username cannot be null ! ");
         }
 
         if (Objects.isNull(userRequestLogin.getPassword())) {
-            throw new Exception("Password cannot be null !");
+            throw new CustomException(400,"Password cannot be null !");
         }
 
         User user1 = userRepository.findByUsername(userRequestLogin.getUsername());
 
         if (Objects.isNull(user1)) {
-            throw new Exception("Bad credentials !");
+            throw new CustomException(402,"Bad credentials !");
         }
 
         if (!bCryptPasswordEncoder.matches(userRequestLogin.getPassword(), user1.getPassword())) {
-            throw new Exception("Bad credentials !");
+            throw new CustomException(402,"Bad credentials !");
         }
 
         return user1;

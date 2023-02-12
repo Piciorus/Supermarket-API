@@ -25,4 +25,7 @@ public interface IProductService {
 
     @Async
     Product updateProductPrice(UpdatePriceProductRequest productRequestUpdatePrice, UUID id);
+
+    @Async
+    List<GetAllProductsResponse>  getAllProducts();
 }

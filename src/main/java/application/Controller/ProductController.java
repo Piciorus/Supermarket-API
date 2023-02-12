@@ -58,5 +58,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
 
+    @GetMapping(path = "/getAllProducts")
+    @Async
+    public ResponseEntity<List<GetAllProductsResponse>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
 
 }
